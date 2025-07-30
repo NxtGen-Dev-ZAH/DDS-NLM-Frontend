@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Sidebar } from "@/components/layout/sidebar";
 import { Header } from "@/components/layout/header";
+import { ThemeProvider } from "@/components/theme-provider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,25 +26,34 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <div className="flex h-screen bg-background">
-          {/* Sidebar */}
-          <Sidebar />
-          
-          {/* Main content */}
-          <div className="flex-1 flex flex-col ml-64">
-            {/* Header */}
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <div className="flex h-screen bg-background flex-col">
+            {/* Header - spans full width */}
             <Header />
             
-            {/* Page content */}
-            <main className="flex-1 overflow-auto p-6">
-              {children}
-            </main>
+            {/* Main content area with sidebar card */}
+            <div className="flex-1 flex min-w-0 p-4 gap-4">
+              {/* Sidebar Card */}
+              <div className="w-64 flex-shrink-0">
+                <Sidebar />
+              </div>
+              
+              {/* Page content */}
+              <main className="flex-1 overflow-hidden">
+                {children}
+              </main>
+            </div>
           </div>
-        </div>
+        </ThemeProvider>
       </body>
     </html>
   );

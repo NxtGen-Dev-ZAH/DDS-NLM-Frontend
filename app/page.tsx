@@ -1,39 +1,37 @@
-import { StatsCards } from '@/components/dashboard/stats-cards'
-import { RealTimeLogs } from '@/components/dashboard/real-time-logs'
-import { IncidentsPanel } from '@/components/dashboard/incidents-panel'
-import { AiChat } from '@/components/dashboard/ai-chat'
+import { TotalLogsCard, AnomaliesCard, BlockedIPsCard, UnblockedIPsCard } from '@/components/dashboard/stats-cards'
+import { LiveTrafficChart } from '@/components/dashboard/live-traffic-chart'
+import { LogsDistributionChart } from '@/components/dashboard/logs-distribution-chart'
+import { AttackLogsTable } from '@/components/dashboard/attack-logs'
 
 export default function DashboardPage() {
   return (
-    <div className="space-y-6">
-      {/* Page Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">Security Dashboard</h1>
-          <p className="text-muted-foreground">
-            Real-time network monitoring and threat detection system
-          </p>
+    <div className="h-full flex flex-col gap-6 p-6">
+      {/* Main Content: Left Column (Stats + Live Traffic) and Right Column (Pie Chart + Attack Logs) */}
+      <div className="flex-1 grid gap-6 grid-cols-12">
+        {/* Left Column: Stats Cards + Live Traffic Chart + Attack Logs */}
+        <div className="col-span-12 lg:col-span-8 flex flex-col gap-4">
+          {/* Stats Cards */}
+          <div className="grid gap-0.5 grid-cols-2 lg:grid-cols-4">
+            <TotalLogsCard />
+            <AnomaliesCard />
+            <BlockedIPsCard />
+            <UnblockedIPsCard />
+          </div>
+          {/* Live Traffic Chart */}
+          <div>
+            <LiveTrafficChart />
+          </div>
+          {/* Attack Logs Table */}
+          <div>
+            <AttackLogsTable />
+          </div>
+        </div>
+        
+        {/* Right Column: Pie Chart */}
+        <div className="col-span-12 lg:col-span-4">
+          <LogsDistributionChart />
         </div>
       </div>
-
-      {/* Statistics Cards */}
-      <StatsCards />
-
-      {/* Main Dashboard Grid */}
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {/* Real-time Logs - Takes 2 columns */}
-        <div className="lg:col-span-2">
-          <RealTimeLogs />
-        </div>
-
-        {/* AI Chat Assistant */}
-        <div className="lg:col-span-1">
-          <AiChat />
-        </div>
-      </div>
-
-      {/* Incidents Panel - Full width */}
-      <IncidentsPanel />
     </div>
   )
 }

@@ -25,25 +25,25 @@ export function LogsDistributionChart() {
 
   return (
     <Card className="shadow-sm rounded-xl">
-      <CardHeader className="pb-0">
+      <CardHeader className="pb-0 pt-1">
         <CardTitle className="flex items-center gap-2 text-sm">
           <AlertTriangle className="h-4 w-4" />
           Logs Distribution
         </CardTitle>
       </CardHeader>
-      <CardContent className="p-2">
+      <CardContent className="p-2 pt-0">
         <div className="grid grid-cols-2 gap-2">
           {/* Left side: Pie Chart (50% width) */}
           <div className="flex justify-center items-center">
-            <div className="w-24 h-24 relative group">
+            <div className="w-20 h-20 relative group">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                   <Pie
                     data={logsDistributionData}
                     cx="50%"
                     cy="50%"
-                    innerRadius={30}
-                    outerRadius={45}
+                    innerRadius={25}
+                    outerRadius={35}
                     paddingAngle={0}
                     dataKey="value"
                     stroke="none"
@@ -87,7 +87,7 @@ export function LogsDistributionChart() {
         </div>
 
         {/* Attack Types below the pie chart */}
-        <div className="mt-2 pl-2 pt-1 border-t">
+        <div className="mt-1 pl-2 pt-1 border-t">
           <h4 className="font-medium mb-1 text-xs">Attack Types</h4>
           <div className="grid grid-cols-2 gap-x-2 gap-y-0.5">
             {attackTypesData.map((item, index) => (

@@ -8,7 +8,7 @@ export default function DashboardPage() {
     <div className="space-y-4 sm:space-y-6 p-4 sm:p-6">
       {/* Main Content Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 sm:gap-6">
-        {/* Left Column: Stats Cards + Live Traffic + Attack Logs */}
+        {/* Left Column: Stats Cards + Live Traffic */}
         <div className="lg:col-span-3 space-y-4 sm:space-y-6">
           {/* Stats Cards Row */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
@@ -22,17 +22,17 @@ export default function DashboardPage() {
           <div>
             <LiveTrafficChart />
           </div>
-
-          {/* Attack Logs Table */}
-          <div>
-            <AttackLogsTable />
-          </div>
         </div>
 
         {/* Right Column: Logs Distribution Chart */}
         <div className="lg:col-span-1">
           <LogsDistributionChart />
         </div>
+      </div>
+
+      {/* Attack Logs Table - Full width below charts */}
+      <div className="w-full">
+        <AttackLogsTable />
       </div>
     </div>
   )

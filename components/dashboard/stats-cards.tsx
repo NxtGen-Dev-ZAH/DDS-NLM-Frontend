@@ -39,12 +39,14 @@ function StatCard({
 }) {
     return (
     <Card className={cardStyle}>
-      <div className="flex items-center justify-between text-xs font-medium text-muted-foreground mb-1">
+      <div className="flex items-center justify-between text-xs font-medium text-muted-foreground mb-0.5">
         <span>{title}</span>
         <div className={cn("h-4 w-4", iconColor)}>{icon}</div>
       </div>
-      <div className="text-lg font-bold text-foreground">{value}</div>
-      <p className="text-xs text-muted-foreground">
+      <div className="text-lg font-bold text-foreground leading-none">{value}</div>
+      <p className="text-[10px] text-muted-foreground leading-none mt-0.5">
+
+
         {deltaType === 'up' ? (
           <TrendingUp className="inline h-3 w-3 mr-1 text-green-500" />
         ) : (

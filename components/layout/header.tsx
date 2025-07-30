@@ -27,7 +27,9 @@ export function Header({ className }: HeaderProps) {
     <header className={cn("flex h-16 items-center gap-6 mx-4 mt-4 mb-2 px-6", className)}>
       {/* Mobile Menu Button */}
       <Button variant="ghost" size="icon" className="md:hidden">
-        <Menu className="h-4 w-4" />
+        <div className="w-8 h-8 bg-muted rounded-full flex items-center justify-center">
+          <Menu className="h-4 w-4 text-muted-foreground" />
+        </div>
       </Button>
 
       {/* DSS WORKFLOW Title */}
@@ -41,10 +43,12 @@ export function Header({ className }: HeaderProps) {
       {/* Centered Search Bar - 300px wide */}
       <div className="flex-1 flex justify-center">
         <div className="relative w-[300px]">
-          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+          <div className="absolute left-3 top-1/2 w-6 h-6 bg-muted rounded-full flex items-center justify-center -translate-y-1/2">
+            <Search className="h-3 w-3 text-muted-foreground" />
+          </div>
           <Input
             placeholder="Search..."
-            className="pl-9 rounded-full bg-background/50 border-border/50 backdrop-blur-sm"
+            className="pl-12 rounded-full bg-background/50 border-border/50 backdrop-blur-sm"
           />
         </div>
       </div>
@@ -55,9 +59,13 @@ export function Header({ className }: HeaderProps) {
         <div className="flex items-center gap-2">
           <div className="flex items-center gap-1">
             {isConnected ? (
-              <Wifi className="h-4 w-4 text-green-500" />
+              <div className="w-8 h-8 bg-muted rounded-full flex items-center justify-center">
+                <Wifi className="h-4 w-4 text-muted-foreground" />
+              </div>
             ) : (
-              <WifiOff className="h-4 w-4 text-red-500" />
+              <div className="w-8 h-8 bg-muted rounded-full flex items-center justify-center">
+                <WifiOff className="h-4 w-4 text-muted-foreground" />
+              </div>
             )}
             <span className="text-xs text-muted-foreground">
               {isConnected ? 'Connected' : 'Disconnected'}
@@ -72,10 +80,12 @@ export function Header({ className }: HeaderProps) {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" size="icon" className="relative">
-              <Bell className="h-4 w-4" />
-              <Badge className="absolute -top-1 -right-1 h-4 w-4 p-0 text-xs">
-                3
-              </Badge>
+              <div className="w-8 h-8 bg-muted rounded-full flex items-center justify-center">
+                <Bell className="h-4 w-4 text-muted-foreground" />
+                <Badge className="absolute -top-1 -right-1 h-4 w-4 p-0 text-xs bg-red-500">
+                  3
+                </Badge>
+              </div>
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-80">
@@ -106,7 +116,9 @@ export function Header({ className }: HeaderProps) {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" size="icon" className="rounded-full">
-              <User className="h-4 w-4" />
+              <div className="w-8 h-8 bg-muted rounded-full flex items-center justify-center">
+                <User className="h-4 w-4 text-muted-foreground" />
+              </div>
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">

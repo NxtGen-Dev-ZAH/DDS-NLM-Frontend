@@ -35,15 +35,15 @@ export function LogsDistributionChart() {
         <div className="grid grid-cols-2 gap-3">
           {/* Left side: Pie Chart (50% width) */}
           <div className="flex justify-center items-center">
-            <div className="w-28 h-28 relative group">
+            <div className="w-30 h-30 relative group">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                   <Pie
                     data={logsDistributionData}
                     cx="50%"
                     cy="50%"
-                    innerRadius={18}
-                    outerRadius={35}
+                    innerRadius={40}
+                    outerRadius={60}
                     paddingAngle={0}
                     dataKey="value"
                     stroke="none"

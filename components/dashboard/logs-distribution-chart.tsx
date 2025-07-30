@@ -25,13 +25,13 @@ export function LogsDistributionChart() {
 
   return (
     <Card className="shadow-sm rounded-xl">
-      <CardHeader className="pb-0 pt-1">
+      <CardHeader className="pb-0 pt-0">
         <CardTitle className="flex items-center gap-2 text-sm">
           <AlertTriangle className="h-4 w-4" />
           Logs Distribution
         </CardTitle>
       </CardHeader>
-      <CardContent className="p-2 pt-0">
+      <CardContent className="px-2 pt-0">
         <div className="grid grid-cols-2 gap-2">
           {/* Left side: Pie Chart (50% width) */}
           <div className="flex justify-center items-center">

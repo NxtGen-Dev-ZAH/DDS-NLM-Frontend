@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { Badge } from '@/components/ui/badge'
-import { AlertTriangle, Clock } from 'lucide-react'
+import { AlertTriangle, Clock, Shield } from 'lucide-react'
 import { logsApi } from '@/lib/api'
 import { Log } from '@/types'
 import { format } from 'date-fns'
@@ -83,11 +83,11 @@ export function AttackLogsTable() {
     return 'default'
   }
 
-    return (
+  return (
     <Card className="shadow-sm rounded-xl">
       <CardHeader className="pb-2">
         <CardTitle className="flex items-center gap-2 text-sm">
-          <AlertTriangle className="h-4 w-4" />
+          <Shield className="h-4 w-4" />
           Attack Logs
         </CardTitle>
       </CardHeader>

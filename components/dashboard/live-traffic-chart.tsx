@@ -23,25 +23,38 @@ const liveTrafficData = [
 
 export function LiveTrafficChart() {
   return (
-    <Card className="h-full shadow-sm rounded-xl">
-      <CardHeader className="pb-2">
-        <CardTitle className="flex items-center gap-2 text-sm">
-          <Activity className="h-4 w-4" />
-          Live Traffic
+    <Card className="shadow-sm rounded-xl">
+      <CardHeader className="pb-1">
+        <CardTitle className="flex items-center justify-between text-sm">
+          <div className="flex items-center gap-2">
+            <Activity className="h-4 w-4" />
+            Live Traffic
+          </div>
+          {/* Legend moved to right side of title */}
+          <div className="flex gap-4 text-xs">
+            <div className="flex items-center gap-1">
+              <div className="w-2 h-2 bg-blue-500 rounded"></div>
+              <span>Logs</span>
+            </div>
+            <div className="flex items-center gap-1">
+              <div className="w-2 h-2 bg-orange-500 rounded"></div>
+              <span>Anomalies</span>
+            </div>
+          </div>
         </CardTitle>
       </CardHeader>
-      <CardContent className="p-4">
-        <ResponsiveContainer width="100%" height={120}>
+      <CardContent className="p-2">
+        <ResponsiveContainer width="100%" height={80}>
           <LineChart data={liveTrafficData}>
             <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
             <XAxis 
               dataKey="time" 
-              tick={{ fontSize: 12 }}
+              tick={{ fontSize: 10 }}
               interval="preserveStartEnd"
               className="text-muted-foreground"
             />
             <YAxis 
-              tick={{ fontSize: 12 }}
+              tick={{ fontSize: 10 }}
               tickFormatter={(value) => `${value / 1000}k`}
               className="text-muted-foreground"
             />
@@ -73,18 +86,6 @@ export function LiveTrafficChart() {
             />
           </LineChart>
         </ResponsiveContainer>
-        
-        {/* Legend */}
-        <div className="flex justify-end gap-4 mt-4 text-sm">
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 bg-blue-500 rounded"></div>
-            <span>Logs</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 bg-orange-500 rounded"></div>
-            <span>Anomalies</span>
-          </div>
-        </div>
       </CardContent>
     </Card>
   )

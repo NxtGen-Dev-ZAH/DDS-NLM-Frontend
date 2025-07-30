@@ -84,47 +84,47 @@ export function AttackLogsTable() {
   }
 
     return (
-    <Card className="h-full shadow-sm rounded-xl">
+    <Card className="shadow-sm rounded-xl">
       <CardHeader className="pb-2">
         <CardTitle className="flex items-center gap-2 text-sm">
           <AlertTriangle className="h-4 w-4" />
           Attack Logs
         </CardTitle>
       </CardHeader>
-      <CardContent className="p-4">
+      <CardContent className="p-3">
                     {loading ? (
-                      <div className="flex items-center justify-center h-32">
+                      <div className="flex items-center justify-center h-24">
                         <div className="text-muted-foreground">Loading attack logs...</div>
                       </div>
                     ) : (
-                      <div className="overflow-x-auto max-h-48">
+                      <div className="overflow-x-auto">
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>Time</TableHead>
-                    <TableHead>Source IP</TableHead>
-                    <TableHead>Destination IP</TableHead>
-                    <TableHead>Port</TableHead>
-                    <TableHead>Threat Type</TableHead>
-                    <TableHead>Confidence Score</TableHead>
+                    <TableHead className="text-xs whitespace-nowrap py-2">Time</TableHead>
+                    <TableHead className="text-xs whitespace-nowrap py-2">Source IP</TableHead>
+                    <TableHead className="text-xs whitespace-nowrap hidden sm:table-cell py-2">Destination IP</TableHead>
+                    <TableHead className="text-xs whitespace-nowrap hidden md:table-cell py-2">Port</TableHead>
+                    <TableHead className="text-xs whitespace-nowrap py-2">Threat Type</TableHead>
+                    <TableHead className="text-xs whitespace-nowrap py-2">Confidence</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {logs.map((log) => (
                     <TableRow key={log.id}>
-                      <TableCell className="font-mono text-sm">
+                      <TableCell className="font-mono text-sm whitespace-nowrap py-2">
                         {format(new Date(log.timestamp), 'HH:mm')}
                       </TableCell>
-                      <TableCell className="font-mono">{log.source_ip}</TableCell>
-                      <TableCell className="font-mono">{log.destination_ip}</TableCell>
-                      <TableCell>{log.protocol}</TableCell>
-                      <TableCell>
-                        <Badge variant="destructive">
+                      <TableCell className="font-mono text-sm whitespace-nowrap py-2">{log.source_ip}</TableCell>
+                      <TableCell className="font-mono text-sm whitespace-nowrap hidden sm:table-cell py-2">{log.destination_ip}</TableCell>
+                      <TableCell className="text-sm whitespace-nowrap hidden md:table-cell py-2">{log.protocol}</TableCell>
+                      <TableCell className="py-2">
+                        <Badge variant="destructive" className="text-xs">
                           {log.is_anomaly ? 'DDos' : 'Normal'}
                         </Badge>
                       </TableCell>
-                      <TableCell>
-                        <Badge variant={getConfidenceColor(97) as any}>
+                      <TableCell className="py-2">
+                        <Badge variant={getConfidenceColor(97) as any} className="text-xs">
                           97%
                         </Badge>
                       </TableCell>

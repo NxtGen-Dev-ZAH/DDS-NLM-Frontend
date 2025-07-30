@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { Sidebar } from "@/components/layout/sidebar";
-import { Header } from "@/components/layout/header";
 import { ThemeProvider } from "@/components/theme-provider";
+import { LayoutWrapper } from "@/components/layout/layout-wrapper";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -36,23 +35,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <div className="flex h-screen bg-background flex-col">
-            {/* Header - spans full width */}
-            <Header />
-            
-            {/* Main content area with sidebar card */}
-            <div className="flex-1 flex min-w-0 p-4 gap-4">
-              {/* Sidebar Card */}
-              <div className="w-64 flex-shrink-0">
-                <Sidebar />
-              </div>
-              
-              {/* Page content */}
-              <main className="flex-1 overflow-hidden">
-                {children}
-              </main>
-            </div>
-          </div>
+          <LayoutWrapper>
+            {children}
+          </LayoutWrapper>
         </ThemeProvider>
       </body>
     </html>

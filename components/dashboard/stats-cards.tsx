@@ -1,13 +1,13 @@
 'use client'
 
 import React from 'react'
-import { 
-  TrendingUp, 
-  TrendingDown, 
-  FileText, 
-  AlertTriangle, 
-  Ban, 
-  Unlock 
+import {
+  TrendingUp,
+  TrendingDown,
+  FileText,
+  AlertTriangle,
+  Ban,
+  Unlock,
 } from 'lucide-react'
 import { Card } from '@/components/ui/card'
 import { cn } from '@/lib/utils'
@@ -20,7 +20,7 @@ const mockStats = {
 }
 
 // Shared styling
-const cardStyle = "bg-card border rounded-lg px-3 py-2 h-20 shadow-sm"
+const cardStyle = 'bg-card border rounded-xl px-2 py-1.5 h-16 shadow-sm'
 
 function StatCard({
   title,
@@ -30,35 +30,42 @@ function StatCard({
   delta,
   deltaType,
 }: {
-  title: string,
-  value: string | number,
-  icon: React.ReactElement,
-  iconColor: string,
-  delta: string,
+  title: string
+  value: string | number
+  icon: React.ReactElement
+  iconColor: string
+  delta: string
   deltaType: 'up' | 'down'
 }) {
-    return (
+  return (
     <Card className={cardStyle}>
-      <div className="flex items-center justify-between text-xs font-medium text-muted-foreground mb-0.5">
-        <span>{title}</span>
-        <div className={cn("h-4 w-4", iconColor)}>{icon}</div>
+      <div className="flex flex-col justify-between h-full">
+        {/* Top: Title + Icon */}
+        <div className="flex items-center justify-between text-xs font-medium text-muted-foreground">
+          <span className="truncate">{title}</span>
+          <div className={cn('h-3 w-3 flex-shrink-0, pr-6', iconColor)}>{icon}</div>
+        </div>
+
+        {/* Middle: Value */}
+        <div className="text-sm font-bold text-foreground leading-none">
+          {value}
+        </div>
+
+        {/* Bottom: Delta */}
+        <p className="text-[8px] text-muted-foreground leading-none flex items-center">
+          {deltaType === 'up' ? (
+            <TrendingUp className="inline h-2 w-2 mr-1 text-green-500" />
+          ) : (
+            <TrendingDown className="inline h-2 w-2 mr-1 text-red-500" />
+          )}
+          {delta}
+        </p>
       </div>
-      <div className="text-lg font-bold text-foreground leading-none">{value}</div>
-      <p className="text-[10px] text-muted-foreground leading-none mt-0.5">
-
-
-        {deltaType === 'up' ? (
-          <TrendingUp className="inline h-3 w-3 mr-1 text-green-500" />
-        ) : (
-          <TrendingDown className="inline h-3 w-3 mr-1 text-red-500" />
-        )}
-        {delta}
-      </p>
     </Card>
   )
 }
 
-// Export individual card components for backward compatibility
+// Individual stat cards
 export function TotalLogsCard() {
   return (
     <StatCard
@@ -113,7 +120,12 @@ export function UnblockedIPsCard() {
 
 export function StatsCards({ className }: { className?: string }) {
   return (
-    <div className={cn("grid gap-3 grid-cols-2 lg:grid-cols-4", className)}>
+    <div
+      className={cn(
+        'grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4',
+        className
+      )}
+    >
       <TotalLogsCard />
       <AnomaliesCard />
       <BlockedIPsCard />

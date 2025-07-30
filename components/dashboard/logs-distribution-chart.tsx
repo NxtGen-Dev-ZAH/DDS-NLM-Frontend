@@ -24,26 +24,26 @@ export function LogsDistributionChart() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
 
   return (
-    <Card className="h-1/2 shadow-sm rounded-xl">
-      <CardHeader className="pb-1">
+    <Card className="shadow-sm rounded-xl">
+      <CardHeader className="pb-0">
         <CardTitle className="flex items-center gap-2 text-sm">
           <AlertTriangle className="h-4 w-4" />
           Logs Distribution
         </CardTitle>
       </CardHeader>
-      <CardContent className="p-3">
-        <div className="grid grid-cols-2 gap-3">
+      <CardContent className="p-2">
+        <div className="grid grid-cols-2 gap-2">
           {/* Left side: Pie Chart (50% width) */}
           <div className="flex justify-center items-center">
-            <div className="w-30 h-30 relative group">
+            <div className="w-24 h-24 relative group">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                   <Pie
                     data={logsDistributionData}
                     cx="50%"
                     cy="50%"
-                    innerRadius={40}
-                    outerRadius={60}
+                    innerRadius={30}
+                    outerRadius={45}
                     paddingAngle={0}
                     dataKey="value"
                     stroke="none"
@@ -70,16 +70,16 @@ export function LogsDistributionChart() {
           </div>
 
           {/* Right side: Distribution Text (vertical layout) */}
-          <div className="space-y-2 px-1">
+          <div className="space-y-1 px-1">
             {logsDistributionData.map((item, index) => (
               <div key={index} className="flex items-center gap-2">
                 <div 
-                  className="w-3 h-3 rounded" 
+                  className="w-2 h-2 rounded" 
                   style={{ backgroundColor: item.color }}
                 ></div>
                 <div className="flex flex-col">
-                  <span className="text-sm font-medium">{item.name}</span>
-                  <span className="text-xs text-muted-foreground">{item.value}%</span>
+                  <span className="text-xs font-medium">{item.name}</span>
+                  <span className="text-[10px] text-muted-foreground">{item.value}%</span>
                 </div>
               </div>
             ))}
@@ -87,18 +87,18 @@ export function LogsDistributionChart() {
         </div>
 
         {/* Attack Types below the pie chart */}
-        <div className="mt-2 pl-2">
-          <h4 className="font-medium mb-1 text-sm">Attack Types</h4>
-          <div className="grid grid-cols-2 gap-x-3 gap-y-1">
+        <div className="mt-2 pl-2 pt-1 border-t">
+          <h4 className="font-medium mb-1 text-xs">Attack Types</h4>
+          <div className="grid grid-cols-2 gap-x-2 gap-y-0.5">
             {attackTypesData.map((item, index) => (
-              <div key={index} className="flex items-center gap-2">
+              <div key={index} className="flex items-center gap-1">
                 <div 
-                  className="w-2 h-2 rounded" 
+                  className="w-1.5 h-1.5 rounded" 
                   style={{ backgroundColor: item.color }}
                 ></div>
                 <div className="flex flex-col">
-                  <span className="text-sm font-medium">{item.type}</span>
-                  <span className="text-xs text-muted-foreground">{item.percentage}%</span>
+                  <span className="text-xs font-medium">{item.type}</span>
+                  <span className="text-[10px] text-muted-foreground">{item.percentage}%</span>
                 </div>
               </div>
             ))}

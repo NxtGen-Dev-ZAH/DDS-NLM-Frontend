@@ -73,7 +73,7 @@ class WebSocketClient {
         this.ws.onerror = (error) => {
           // Log the error in a more structured way
           console.error('WebSocket error:', {
-            message: error.message || 'Unknown WebSocket error',
+            message: 'WebSocket connection error',
             type: error.type,
             timeStamp: error.timeStamp
           })

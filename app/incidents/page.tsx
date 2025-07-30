@@ -93,7 +93,7 @@ export default function IncidentsPage() {
     }
   }
 
-  const updateIncidentStatus = async (incidentId: number, newStatus: string) => {
+  const updateIncidentStatus = async (incidentId: number, newStatus: 'open' | 'in_progress' | 'resolved' | 'closed') => {
     try {
       await incidentsApi.updateIncident(incidentId, { status: newStatus })
       fetchIncidents() // Refresh the list
@@ -256,7 +256,7 @@ export default function IncidentsPage() {
                                     <Select
                                       value={incident.status}
                                       onValueChange={(value) => 
-                                        updateIncidentStatus(incident.id!, value)
+                                        updateIncidentStatus(incident.id!, value as 'open' | 'in_progress' | 'resolved' | 'closed')
                                       }
                                     >
                                       <SelectTrigger>

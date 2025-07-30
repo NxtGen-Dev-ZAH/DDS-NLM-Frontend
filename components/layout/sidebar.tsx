@@ -41,83 +41,60 @@ interface SidebarProps {
 }
 
 export function Sidebar({ className }: SidebarProps) {
-  const [isOpen, setIsOpen] = useState(true)
   const pathname = usePathname()
 
   return (
-    <>
-      {/* Mobile menu button */}
-      <Button
-        variant="ghost"
-        size="icon"
-        className="fixed top-4 left-4 z-50 md:hidden"
-        onClick={() => setIsOpen(!isOpen)}
-      >
-        {isOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
-      </Button>
+    <Card className={cn(
+      "h-full bg-card border rounded-xl shadow-sm",
+      "w-full",
+      className
+    )}>
+      <div className="flex h-full flex-col p-4">
+        {/* Navigation */}
+        <nav className="flex-1 space-y-2">
+          {navigation.map((item) => {
+            const isActive = pathname === item.href
+            const Icon = item.icon
 
-      {/* Sidebar Card */}
-      <Card className={cn(
-        "h-full bg-card border rounded-lg shadow-sm transition-all duration-300 ease-in-out",
-        isOpen ? "translate-x-0" : "-translate-x-full",
-        "w-full md:translate-x-0",
-        className
-      )}>
-        <div className="flex h-full flex-col p-4">
-          {/* Navigation */}
-          <nav className="flex-1 space-y-2">
-            {navigation.map((item) => {
-              const isActive = pathname === item.href
-              const Icon = item.icon
+            return (
+              <Link key={item.name} href={item.href}>
+                <div
+                  className={cn(
+                    "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
+                    isActive
+                      ? "bg-primary text-primary-foreground"
+                      : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+                  )}
+                >
+                  <Icon className="h-4 w-4" />
+                  <span className="flex-1">{item.name}</span>
+                  {item.badge && (
+                    <Badge 
+                      variant={isActive ? "secondary" : "default"} 
+                      className="h-5 px-1.5 text-xs"
+                    >
+                      {item.badge}
+                    </Badge>
+                  )}
+                </div>
+              </Link>
+            )
+          })}
+        </nav>
 
-              return (
-                <Link key={item.name} href={item.href}>
-                  <div
-                    className={cn(
-                      "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
-                      isActive
-                        ? "bg-primary text-primary-foreground"
-                        : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
-                    )}
-                  >
-                    <Icon className="h-4 w-4" />
-                    <span className="flex-1">{item.name}</span>
-                    {item.badge && (
-                      <Badge 
-                        variant={isActive ? "secondary" : "default"} 
-                        className="h-5 px-1.5 text-xs"
-                      >
-                        {item.badge}
-                      </Badge>
-                    )}
-                  </div>
-                </Link>
-              )
-            })}
-          </nav>
-
-          {/* Footer */}
-          <div className="border-t pt-4 mt-auto">
-            <div className="flex items-center gap-3 rounded-lg bg-muted p-3">
-              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground text-xs font-medium">
-                A
-              </div>
-              <div className="flex-1 text-sm">
-                <div className="font-medium">Admin User</div>
-                <div className="text-muted-foreground">admin@dss.local</div>
-              </div>
+        {/* Footer */}
+        <div className="border-t pt-4 mt-auto">
+          <div className="flex items-center gap-3 rounded-lg bg-muted p-3">
+            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground text-xs font-medium">
+              A
+            </div>
+            <div className="flex-1 text-sm">
+              <div className="font-medium">Admin User</div>
+              <div className="text-muted-foreground">admin@dss.local</div>
             </div>
           </div>
         </div>
-      </Card>
-
-      {/* Overlay for mobile */}
-      {isOpen && (
-        <div
-          className="fixed inset-0 z-30 bg-black/20 md:hidden"
-          onClick={() => setIsOpen(false)}
-        />
-      )}
-    </>
+      </div>
+    </Card>
   )
 } 

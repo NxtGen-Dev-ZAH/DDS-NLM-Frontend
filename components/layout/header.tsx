@@ -1,10 +1,20 @@
 'use client'
 
-import { Bell, Wifi, WifiOff, Shield, Search, User, Menu, AlertTriangle } from 'lucide-react'
+import {
+  Bell,
+  Wifi,
+  WifiOff,
+  Shield,
+  Search,
+  User,
+  Menu,
+  AlertTriangle,
+} from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Input } from '@/components/ui/input'
-import { 
+import { Card } from '@/components/ui/card'
+import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
@@ -18,71 +28,83 @@ import { cn } from '@/lib/utils'
 
 interface HeaderProps {
   className?: string
+  onMobileMenuToggle?: () => void
 }
 
-export function Header({ className }: HeaderProps) {
-  const { isConnected, connectionError } = useWebSocket()
+export function Header({ className, onMobileMenuToggle }: HeaderProps) {
+  const { isConnected } = useWebSocket()
 
   return (
-    <header className={cn("flex h-16 items-center gap-6 mx-4 mt-4 mb-2 px-6", className)}>
-      {/* Mobile Menu Button */}
-      <Button variant="ghost" size="icon" className="md:hidden">
-        <div className="w-8 h-8 bg-muted rounded-full flex items-center justify-center">
-          <Menu className="h-4 w-4 text-muted-foreground" />
-        </div>
-      </Button>
+    <div
+      className={cn(
+        'flex flex-row h-12 items-center justify-between px-4 sm:px-6',
+        className
+      )}
+    >
+      {/* Left Section */}
+      <div className="flex items-center gap-4">
+        {/* Mobile Menu Button */}
+        <Button
+          variant="ghost"
+          size="icon"
+          className="md:hidden"
+          onClick={onMobileMenuToggle}
+        >
+          <div className="w-6 h-6 bg-muted rounded-full flex items-center justify-center">
+            <Menu className="h-3 w-3 text-muted-foreground" />
+          </div>
+        </Button>
 
-      {/* DSS WORKFLOW Title */}
-      <div className="flex items-center gap-2">
-        <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
-          <span className="text-primary-foreground font-bold text-sm">D</span>
+        {/* DSS WORKFLOW Title */}
+        <div className="flex items-center gap-1.5">
+          <div className="w-6 h-6 bg-primary rounded-full flex items-center justify-center">
+            <span className="text-primary-foreground font-semibold text-xs">D</span>
+          </div>
+          <h1 className="text-sm font-bold tracking-wide text-foreground">
+            DSS WORKFLOW
+          </h1>
         </div>
-        <h1 className="text-xl font-bold text-foreground">DSS WORKFLOW</h1>
       </div>
 
-      {/* Centered Search Bar - 300px wide */}
-      <div className="flex-1 flex justify-center">
-        <div className="relative w-[300px]">
-          <div className="absolute left-3 top-1/2 w-6 h-6 bg-muted rounded-full flex items-center justify-center -translate-y-1/2">
-            <Search className="h-3 w-3 text-muted-foreground" />
-          </div>
+      {/* Center Section - Search Bar */}
+      <div className="flex-1 flex justify-center max-w-sm mx-4">
+        <div className="relative w-full">
+          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground z-10" />
           <Input
-            placeholder="Search..."
-            className="pl-12 rounded-full bg-background/50 border-border/50 backdrop-blur-sm"
+            placeholder="Search"
+            className="pl-10 py-1.5 rounded-full text-sm bg-background/60 border-border/60 backdrop-blur-sm"
           />
         </div>
       </div>
 
-      {/* Right side utilities */}
-      <div className="flex items-center gap-4">
+      {/* Right Section */}
+      <div className="flex items-center gap-2">
         {/* Connection Status */}
-        <div className="flex items-center gap-2">
-          <div className="flex items-center gap-1">
+        <div className="hidden lg:flex items-center gap-2">
+          <div className="w-6 h-6 bg-muted rounded-full flex items-center justify-center">
             {isConnected ? (
-              <div className="w-8 h-8 bg-muted rounded-full flex items-center justify-center">
-                <Wifi className="h-4 w-4 text-muted-foreground" />
-              </div>
+              <Wifi className="h-3 w-3 text-muted-foreground" />
             ) : (
-              <div className="w-8 h-8 bg-muted rounded-full flex items-center justify-center">
-                <WifiOff className="h-4 w-4 text-muted-foreground" />
-              </div>
+              <WifiOff className="h-3 w-3 text-muted-foreground" />
             )}
-            <span className="text-xs text-muted-foreground">
-              {isConnected ? 'Connected' : 'Disconnected'}
-            </span>
           </div>
+          <span className="text-xs text-muted-foreground">
+            {isConnected ? 'Connected' : 'Disconnected'}
+          </span>
         </div>
 
         {/* Theme Toggle */}
-        <ThemeToggle />
+        <div className="w-6 h-6 bg-muted rounded-full flex items-center justify-center">
+          <ThemeToggle />
+        </div>
 
         {/* Notifications */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" size="icon" className="relative">
-              <div className="w-8 h-8 bg-muted rounded-full flex items-center justify-center">
-                <Bell className="h-4 w-4 text-muted-foreground" />
-                <Badge className="absolute -top-1 -right-1 h-4 w-4 p-0 text-xs bg-red-500">
+              <div className="w-6 h-6 bg-muted rounded-full flex items-center justify-center">
+                <Bell className="h-3 w-3 text-muted-foreground" />
+                <Badge className="absolute -top-1 -right-1 h-3 w-3 p-0 text-[8px] leading-none bg-red-500">
                   3
                 </Badge>
               </div>
@@ -116,8 +138,8 @@ export function Header({ className }: HeaderProps) {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" size="icon" className="rounded-full">
-              <div className="w-8 h-8 bg-muted rounded-full flex items-center justify-center">
-                <User className="h-4 w-4 text-muted-foreground" />
+              <div className="w-6 h-6 bg-muted rounded-full flex items-center justify-center">
+                <User className="h-3 w-3 text-muted-foreground" />
               </div>
             </Button>
           </DropdownMenuTrigger>
@@ -131,6 +153,6 @@ export function Header({ className }: HeaderProps) {
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-    </header>
+    </div>
   )
-} 
+}

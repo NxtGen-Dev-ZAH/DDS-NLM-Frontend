@@ -21,7 +21,7 @@ export function LayoutWrapper({ children }: LayoutWrapperProps) {
       {/* Main content area with sidebar and content */}
       <div className="flex-1 flex gap-2 px-2 pb-0 my-0 max-w-7xl mx-auto w-full">
         {/* Desktop Sidebar */}
-        <div className="w-48 flex-shrink-0 hidden md:block">
+        <div className="w-48 flex-shrink-0 hidden md:block mb-5">
           <Sidebar />
         </div>
         

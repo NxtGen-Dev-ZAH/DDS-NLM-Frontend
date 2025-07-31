@@ -5,7 +5,7 @@ import { AttackLogsTable } from '@/components/dashboard/attack-logs'
 
 export default function DashboardPage() {
   return (
-    <div className="space-y-3 p-3">
+    <div className="space-y-3 p-0 pl-1">
       {/* Main Content Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-3">
         {/* Left Column: Stats Cards + Live Traffic */}

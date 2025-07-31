@@ -25,25 +25,25 @@ export function LogsDistributionChart() {
 
   return (
     <Card className="shadow-sm rounded-xl">
-      <CardHeader className="pb-0 pt-0">
+      <CardHeader className="pb-0 pt-0 px-3">
         <CardTitle className="flex items-center gap-2 text-sm">
           <AlertTriangle className="h-4 w-4" />
           Logs Distribution
         </CardTitle>
       </CardHeader>
-      <CardContent className="px-2 pt-0">
-        <div className="grid grid-cols-2 gap-2">
+      <CardContent className="p-3 py-0">
+        <div className="grid grid-cols-2 gap-3">
           {/* Left side: Pie Chart (50% width) */}
           <div className="flex justify-center items-center">
-            <div className="w-20 h-20 relative group">
+            <div className="w-32 h-32 relative group">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                   <Pie
                     data={logsDistributionData}
                     cx="50%"
                     cy="50%"
-                    innerRadius={25}
-                    outerRadius={35}
+                    innerRadius={35}
+                    outerRadius={55}
                     paddingAngle={0}
                     dataKey="value"
                     stroke="none"
@@ -70,16 +70,16 @@ export function LogsDistributionChart() {
           </div>
 
           {/* Right side: Distribution Text (vertical layout) */}
-          <div className="space-y-1 px-1">
+          <div className="space-y-2 px-1">
             {logsDistributionData.map((item, index) => (
               <div key={index} className="flex items-center gap-2">
                 <div 
-                  className="w-2 h-2 rounded" 
+                  className="w-3 h-3 rounded" 
                   style={{ backgroundColor: item.color }}
                 ></div>
                 <div className="flex flex-col">
-                  <span className="text-xs font-medium">{item.name}</span>
-                  <span className="text-[10px] text-muted-foreground">{item.value}%</span>
+                  <span className="text-sm font-medium">{item.name}</span>
+                  <span className="text-xs text-muted-foreground">{item.value}%</span>
                 </div>
               </div>
             ))}
@@ -87,18 +87,18 @@ export function LogsDistributionChart() {
         </div>
 
         {/* Attack Types below the pie chart */}
-        <div className="mt-1 pl-2 pt-1 border-t">
-          <h4 className="font-medium mb-1 text-xs">Attack Types</h4>
-          <div className="grid grid-cols-2 gap-x-2 gap-y-0.5">
+        <div className="mt-3 pl-2 pt-2 border-t">
+          <h4 className="font-medium mb-2 text-sm">Attack Types</h4>
+          <div className="grid grid-cols-2 gap-x-3 gap-y-1">
             {attackTypesData.map((item, index) => (
-              <div key={index} className="flex items-center gap-1">
+              <div key={index} className="flex items-center gap-2">
                 <div 
-                  className="w-1.5 h-1.5 rounded" 
+                  className="w-2 h-2 rounded" 
                   style={{ backgroundColor: item.color }}
                 ></div>
                 <div className="flex flex-col">
-                  <span className="text-xs font-medium">{item.type}</span>
-                  <span className="text-[10px] text-muted-foreground">{item.percentage}%</span>
+                  <span className="text-sm font-medium">{item.type}</span>
+                  <span className="text-xs text-muted-foreground">{item.percentage}%</span>
                 </div>
               </div>
             ))}

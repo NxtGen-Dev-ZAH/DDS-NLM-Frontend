@@ -44,7 +44,7 @@ export function LiveTrafficChart() {
         </CardTitle>
       </CardHeader>
       <CardContent className="p-2 py-0 m-0">
-        <ResponsiveContainer width="100%" height={118}>
+        <ResponsiveContainer width="100%" height={180}>
           <LineChart data={liveTrafficData}>
             <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
             <XAxis 

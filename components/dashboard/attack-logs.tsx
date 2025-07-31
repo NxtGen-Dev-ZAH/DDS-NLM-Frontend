@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { Badge } from '@/components/ui/badge'
-import { AlertTriangle, Clock, Shield } from 'lucide-react'
+import { AlertTriangle, Clock } from 'lucide-react'
 import { logsApi } from '@/lib/api'
 import { Log } from '@/types'
 import { format } from 'date-fns'
@@ -83,57 +83,57 @@ export function AttackLogsTable() {
     return 'default'
   }
 
-  return (
-    <Card className="shadow-sm rounded-xl m-0">
-      <CardHeader className="pb-0">
+    return (
+    <Card className="shadow-sm rounded-xl">
+      <CardHeader className="pb-0 px-3">
         <CardTitle className="flex items-center gap-2 text-sm">
-          <Shield className="h-4 w-4" />
+          <AlertTriangle className="h-4 w-4" />
           Attack Logs
         </CardTitle>
       </CardHeader>
-      <CardContent className="px-2 m-0">
-        {loading ? (
-          <div className="flex items-center justify-center h-24">
-            <div className="text-muted-foreground">Loading attack logs...</div>
-          </div>
-        ) : (
-          <div className="overflow-x-auto">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="text-xs whitespace-nowrap py-0.5">Time</TableHead>
-                  <TableHead className="text-xs whitespace-nowrap py-0.5">Source IP</TableHead>
-                  <TableHead className="text-xs whitespace-nowrap hidden sm:table-cell py-0.5">Destination IP</TableHead>
-                  <TableHead className="text-xs whitespace-nowrap hidden md:table-cell py-0.5">Port</TableHead>
-                  <TableHead className="text-xs whitespace-nowrap py-0.5">Threat Type</TableHead>
-                  <TableHead className="text-xs whitespace-nowrap py-0.5">Confidence</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {logs.map((log) => (
-                  <TableRow key={log.id}>
-                    <TableCell className="font-mono text-sm whitespace-nowrap py-0.5">
-                      {format(new Date(log.timestamp), 'HH:mm')}
-                    </TableCell>
-                    <TableCell className="font-mono text-sm whitespace-nowrap py-0.5">{log.source_ip}</TableCell>
-                    <TableCell className="font-mono text-sm whitespace-nowrap hidden sm:table-cell py-0.5">{log.destination_ip}</TableCell>
-                    <TableCell className="text-sm whitespace-nowrap hidden md:table-cell py-0.5">{log.protocol}</TableCell>
-                    <TableCell className="py-0.5">
-                      <Badge variant="destructive" className="text-xs">
-                        {log.is_anomaly ? 'DDos' : 'Normal'}
-                      </Badge>
-                    </TableCell>
-                    <TableCell className="py-0.5">
-                      <Badge variant={getConfidenceColor(97) as any} className="text-xs">
-                        97%
-                      </Badge>
-                    </TableCell>
+      <CardContent className="py-0.5 px-2">
+                    {loading ? (
+                      <div className="flex items-center justify-center h-16">
+                        <div className="text-muted-foreground">Loading attack logs...</div>
+                      </div>
+                    ) : (
+                      <div className="overflow-x-auto">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead className="text-xs whitespace-nowrap py-0.5 px-2">Time</TableHead>
+                    <TableHead className="text-xs whitespace-nowrap py-0.5 px-2">Source IP</TableHead>
+                    <TableHead className="text-xs whitespace-nowrap hidden sm:table-cell py-0.5 px-2">Destination IP</TableHead>
+                    <TableHead className="text-xs whitespace-nowrap hidden md:table-cell py-0.5 px-2">Port</TableHead>
+                    <TableHead className="text-xs whitespace-nowrap py-0.5 px-2">Threat Type</TableHead>
+                    <TableHead className="text-xs whitespace-nowrap py-0.5 px-2">Confidence</TableHead>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </div>
-        )}
+                </TableHeader>
+                <TableBody>
+                  {logs.map((log) => (
+                    <TableRow key={log.id}>
+                      <TableCell className="font-mono text-sm whitespace-nowrap py-0 px-2">
+                        {format(new Date(log.timestamp), 'HH:mm')}
+                      </TableCell>
+                      <TableCell className="font-mono text-sm whitespace-nowrap py-0 px-2">{log.source_ip}</TableCell>
+                      <TableCell className="font-mono text-sm whitespace-nowrap hidden sm:table-cell py-0 px-2">{log.destination_ip}</TableCell>
+                      <TableCell className="text-sm whitespace-nowrap hidden md:table-cell py-0 px-2">{log.protocol}</TableCell>
+                      <TableCell className="py-0 px-2">
+                        <Badge variant="destructive" className="text-xs">
+                          {log.is_anomaly ? 'DDos' : 'Normal'}
+                        </Badge>
+                      </TableCell>
+                      <TableCell className="py-0.5 px-2">
+                        <Badge variant={getConfidenceColor(97) as any} className="text-xs">
+                          97%
+                        </Badge>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
+          )}
       </CardContent>
     </Card>
   )

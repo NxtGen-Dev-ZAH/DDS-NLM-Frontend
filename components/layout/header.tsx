@@ -37,7 +37,7 @@ export function Header({ className, onMobileMenuToggle }: HeaderProps) {
   return (
     <div
       className={cn(
-        'flex flex-row h-12 items-center justify-between px-4 sm:px-6',
+        'flex flex-row h-12 items-center justify-between px-3 sm:px-4',
         className
       )}
     >

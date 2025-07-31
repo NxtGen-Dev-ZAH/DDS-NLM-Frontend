@@ -89,7 +89,7 @@ export function RealTimeLogs({ className }: RealTimeLogsProps) {
 
   return (
     <Card className={className}>
-      <CardHeader>
+      <CardHeader className="pb-1">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <CardTitle>Real-time Log Monitor</CardTitle>
@@ -134,20 +134,20 @@ export function RealTimeLogs({ className }: RealTimeLogsProps) {
         </div>
       </CardHeader>
       
-      <CardContent>
+      <CardContent className="p-1">
         {loading ? (
-          <div className="flex items-center justify-center h-64">
+          <div className="flex items-center justify-center h-96">
             <div className="text-muted-foreground">Loading logs...</div>
           </div>
         ) : error ? (
-          <div className="flex items-center justify-center h-64">
+          <div className="flex items-center justify-center h-96">
             <div className="flex items-center gap-2 text-destructive">
               <AlertTriangle className="h-4 w-4" />
               <span>Failed to load logs: {error}</span>
             </div>
           </div>
         ) : (
-          <ScrollArea className="h-96">
+          <ScrollArea className="h-[600px]">
             <Table>
               <TableHeader>
                 <TableRow>
@@ -219,7 +219,7 @@ export function RealTimeLogs({ className }: RealTimeLogsProps) {
         )}
 
         {/* Status bar */}
-        <div className="flex items-center justify-between mt-4 pt-4 border-t text-xs text-muted-foreground">
+        <div className="flex items-center justify-between mt-1 pt-1 border-t text-xs text-muted-foreground">
           <div className="flex items-center gap-4">
             <span>Showing {displayLogs.length} logs</span>
             {realtimeLogs.length > 0 && (

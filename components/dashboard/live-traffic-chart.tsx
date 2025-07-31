@@ -24,7 +24,7 @@ const liveTrafficData = [
 export function LiveTrafficChart() {
   return (
     <Card className="shadow-sm rounded-xl">
-      <CardHeader className="pb-1">
+      <CardHeader className="py-0">
         <CardTitle className="flex items-center justify-between text-sm">
           <div className="flex items-center gap-2">
             <Activity className="h-4 w-4" />
@@ -43,8 +43,8 @@ export function LiveTrafficChart() {
           </div>
         </CardTitle>
       </CardHeader>
-      <CardContent className="p-2">
-        <ResponsiveContainer width="100%" height={80}>
+      <CardContent className="p-2 py-0 m-0">
+        <ResponsiveContainer width="100%" height={118}>
           <LineChart data={liveTrafficData}>
             <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
             <XAxis 

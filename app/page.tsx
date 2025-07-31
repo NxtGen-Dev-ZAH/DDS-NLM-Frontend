@@ -5,13 +5,13 @@ import { AttackLogsTable } from '@/components/dashboard/attack-logs'
 
 export default function DashboardPage() {
   return (
-    <div className="space-y-4 sm:space-y-6 p-4 sm:p-6">
+    <div className="space-y-3 p-3">
       {/* Main Content Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 sm:gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-3">
         {/* Left Column: Stats Cards + Live Traffic */}
-        <div className="lg:col-span-3 space-y-4 sm:space-y-6">
+        <div className="lg:col-span-8 space-y-3">
           {/* Stats Cards Row */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
             <TotalLogsCard />
             <AnomaliesCard />
             <BlockedIPsCard />
@@ -25,7 +25,7 @@ export default function DashboardPage() {
         </div>
 
         {/* Right Column: Logs Distribution Chart */}
-        <div className="lg:col-span-1">
+        <div className="lg:col-span-4">
           <LogsDistributionChart />
         </div>
       </div>

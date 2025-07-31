@@ -14,14 +14,14 @@ export function LayoutWrapper({ children }: LayoutWrapperProps) {
   return (
     <div className="min-h-screen bg-background flex flex-col">
       {/* Header - Fixed at top */}
-      <div className="p-2 max-w-7xl mx-auto w-full">
+      <div className="py-2 max-w-7xl mx-auto w-full">
         <Header onMobileMenuToggle={() => setIsMobileMenuOpen(!isMobileMenuOpen)} />
       </div>
       
       {/* Main content area with sidebar and content */}
-      <div className="flex-1 flex gap-3 px-3 pb-2 max-w-7xl mx-auto w-full">
+      <div className="flex-1 flex gap-2 px-2 pb-0 my-0 max-w-7xl mx-auto w-full">
         {/* Desktop Sidebar */}
-        <div className="w-64 flex-shrink-0 hidden md:block">
+        <div className="w-48 flex-shrink-0 hidden md:block">
           <Sidebar />
         </div>
         
@@ -29,14 +29,14 @@ export function LayoutWrapper({ children }: LayoutWrapperProps) {
         {isMobileMenuOpen && (
           <>
             <div className="fixed inset-0 z-30 bg-black/20 md:hidden" onClick={() => setIsMobileMenuOpen(false)} />
-            <div className="fixed left-0 top-0 z-40 h-full w-64 md:hidden">
+            <div className="fixed left-0 top-0 z-40 h-full w-48 md:hidden">
               <Sidebar />
             </div>
           </>
         )}
         
         {/* Page content */}
-        <main className="flex-1 min-w-0">
+        <main className="flex-1 min-w-0 py-0 my-0">
           {children}
         </main>
       </div>

@@ -60,10 +60,10 @@ export function Sidebar({ className }: SidebarProps) {
               <Link key={item.name} href={item.href}>
                 <div
                   className={cn(
-                    "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
+                    "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-all duration-200",
                     isActive
-                      ? "bg-primary text-primary-foreground"
-                      : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+                      ? "bg-accent/50 border-l-4 border-primary shadow-sm text-foreground"
+                      : "text-muted-foreground hover:bg-accent hover:text-accent-foreground hover:border-l-4 hover:border-muted-foreground/30"
                   )}
                 >
                   <Icon className="h-4 w-4" />

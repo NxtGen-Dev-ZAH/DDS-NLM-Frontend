@@ -32,9 +32,9 @@ export function LogsDistributionChart() {
         </CardTitle>
       </CardHeader>
       <CardContent className="p-3 pb-1 pt-0">
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-3 gap-2">
           {/* Left side: Pie Chart (50% width) */}
-          <div className="flex justify-center items-center">
+          <div className="flex justify-center items-center col-span-2">
             <div className="w-32 h-32 relative group">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
@@ -55,7 +55,9 @@ export function LogsDistributionChart() {
                         stroke="none"
                         style={{
                           cursor: 'pointer',
-                          filter: hoveredIndex === index ? 'drop-shadow(0 4px 8px rgba(0,0,0,0.3)) brightness(1.1)' : 'drop-shadow(0 2px 4px rgba(0,0,0,0.1))',
+                          filter: hoveredIndex === index 
+                            ? 'drop-shadow(0 4px 8px rgba(0,0,0,0.3)) brightness(1.1)' 
+                            : 'drop-shadow(0 1px 2px rgba(0,0,0,0.05))',
                           transition: 'all 0.2s ease',
                           outline: 'none'
                         }}
@@ -69,16 +71,16 @@ export function LogsDistributionChart() {
             </div>
           </div>
 
-          {/* Right side: Distribution Text (vertical layout) */}
-          <div className="space-y-2 px-1">
+          {/* Right side: Distribution Text (narrower) */}
+          <div className="space-y-2 px-0">
             {logsDistributionData.map((item, index) => (
-              <div key={index} className="flex items-center gap-2">
+              <div key={index} className="flex items-center gap-1.5">
                 <div 
-                  className="w-3 h-3 rounded" 
+                  className="w-3 h-3 rounded flex-shrink-0" 
                   style={{ backgroundColor: item.color }}
                 ></div>
-                <div className="flex flex-col">
-                  <span className="text-sm font-medium">{item.name}</span>
+                <div className="flex flex-col min-w-0">
+                  <span className="text-sm font-medium truncate">{item.name}</span>
                   <span className="text-xs text-muted-foreground">{item.value}%</span>
                 </div>
               </div>
@@ -108,3 +110,5 @@ export function LogsDistributionChart() {
     </Card>
   )
 } 
+
+

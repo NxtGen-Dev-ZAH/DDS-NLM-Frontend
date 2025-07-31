@@ -44,49 +44,49 @@
 
 :root {
   --radius: 0.625rem;
-  /* Light Mode Colors - Exact Specification */
-  --background: #F4F4F6; /* Main panel background */
-  --foreground: #000000; /* Primary text */
-  --card: #FFFFFF; /* Card background */
-  --card-foreground: #000000;
-  --popover: #FFFFFF;
-  --popover-foreground: #000000;
-  --primary: #000000;
+  /* Light Mode Colors - Darker Shades */
+  --background: #F1F3F4; /* Darker background */
+  --foreground: #1F2937; /* Darker text */
+  --card: #FAFAFA; /* Slightly off-white cards */
+  --card-foreground: #1F2937;
+  --popover: #FAFAFA;
+  --popover-foreground: #1F2937;
+  --primary: #1E40AF; /* Darker blue for light mode */
   --primary-foreground: #FFFFFF;
-  --secondary: #6B7280; /* Secondary text */
+  --secondary: #6B7280; /* Darker secondary text */
   --secondary-foreground: #FFFFFF;
-  --muted: #E0E0E0; /* Card border */
+  --muted: #D1D5DB; /* Darker muted background */
   --muted-foreground: #6B7280;
-  --accent: #E0E0E0;
-  --accent-foreground: #000000;
-  --destructive: #EF4444; /* Icon red */
-  --border: #DADADA; /* Card border */
-  --input: #FFFFFF;
-  --ring: #3B82F6; /* Icon blue */
-  --chart-1: #2563EB; /* Pie chart blue */
-  --chart-2: #F97316; /* Pie chart orange */
-  --chart-3: #EF4444; /* Pie chart red */
-  --chart-4: #007AFF; /* Accent blue */
-  --chart-5: #FB923C; /* Accent orange */
-  --sidebar: #E4E4E7; /* Sidebar background */
-  --sidebar-foreground: #000000;
-  --sidebar-primary: #000000;
+  --accent: #E5E7EB; /* Darker accent */
+  --accent-foreground: #1F2937;
+  --destructive: #B91C1C; /* Darker red for light mode */
+  --border: #D1D5DB; /* Darker border */
+  --input: #FAFAFA;
+  --ring: #1E40AF; /* Darker blue for focus */
+  --chart-1: #1E40AF; /* Darker blue for charts */
+  --chart-2: #D97706; /* Darker orange for light mode */
+  --chart-3: #B91C1C; /* Darker red for light mode */
+  --chart-4: #1E40AF; /* Darker blue */
+  --chart-5: #D97706; /* Darker orange */
+  --sidebar: #F1F3F4; /* Match darker background */
+  --sidebar-foreground: #1F2937;
+  --sidebar-primary: #D97706; /* Orange highlight for light mode */
   --sidebar-primary-foreground: #FFFFFF;
-  --sidebar-accent: #F0F0F2;
-  --sidebar-accent-foreground: #000000;
-  --sidebar-border: #DADADA;
-  --sidebar-ring: #3B82F6;
+  --sidebar-accent: #E5E7EB;
+  --sidebar-accent-foreground: #1F2937;
+  --sidebar-border: #D1D5DB;
+  --sidebar-ring: #D97706; /* Orange ring for light mode */
 }
 
 .dark {
-  /* Dark Mode Colors - Exact Specification */
+  /* Dark Mode Colors - Lighter Shades */
   --background: #0F0F0F; /* Full dark screen background */
   --foreground: #FFFFFF; /* Primary text */
   --card: #1F1F23; /* Card background */
   --card-foreground: #FFFFFF;
   --popover: #1F1F23;
   --popover-foreground: #FFFFFF;
-  --primary: #FFFFFF;
+  --primary: #60A5FA; /* Lighter blue for dark mode */
   --primary-foreground: #0F0F0F;
   --secondary: #A1A1AA; /* Secondary text */
   --secondary-foreground: #0F0F0F;
@@ -94,23 +94,23 @@
   --muted-foreground: #A1A1AA;
   --accent: #2D2D30;
   --accent-foreground: #FFFFFF;
-  --destructive: #EF4444; /* Icon red */
+  --destructive: #DC2626; /* More muted red for dark mode */
   --border: #2D2D30; /* Subtle borders */
   --input: #2D2D30;
-  --ring: #60A5FA; /* Accent blue */
-  --chart-1: #3B82F6; /* Pie chart blue */
-  --chart-2: #F59E0B; /* Pie chart orange */
-  --chart-3: #EF4444; /* Pie chart red */
-  --chart-4: #60A5FA; /* Accent blue */
-  --chart-5: #F59E0B; /* Accent orange */
+  --ring: #60A5FA; /* Lighter blue for focus */
+  --chart-1: #60A5FA; /* Lighter blue for charts */
+  --chart-2: #FBBF24; /* Lighter orange for dark mode */
+  --chart-3: #DC2626; /* More muted red for dark mode */
+  --chart-4: #60A5FA; /* Lighter blue */
+  --chart-5: #FBBF24; /* Lighter orange */
   --sidebar: #18181B; /* Sidebar background */
   --sidebar-foreground: #FFFFFF;
-  --sidebar-primary: #FFFFFF;
+  --sidebar-primary: #FBBF24; /* Lighter orange highlight for dark mode */
   --sidebar-primary-foreground: #0F0F0F;
   --sidebar-accent: #2D2D30;
   --sidebar-accent-foreground: #FFFFFF;
   --sidebar-border: #2D2D30;
-  --sidebar-ring: #60A5FA;
+  --sidebar-ring: #FBBF24; /* Lighter orange ring for dark mode */
 }
 
 @layer base {

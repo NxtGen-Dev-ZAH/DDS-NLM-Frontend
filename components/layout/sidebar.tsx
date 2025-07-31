@@ -49,7 +49,7 @@ export function Sidebar({ className }: SidebarProps) {
       "w-full",
       className
     )}>
-      <div className="flex h-full flex-col p-4">
+      <div className="flex h-full flex-col p-4 py-0">
         {/* Navigation */}
         <nav className="flex-1 space-y-2">
           {navigation.map((item) => {
@@ -84,13 +84,13 @@ export function Sidebar({ className }: SidebarProps) {
 
         {/* Footer */}
         <div className="border-t pt-4 mt-auto">
-          <div className="flex items-center gap-3 rounded-lg bg-muted p-3">
-            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground text-xs font-medium">
+          <div className="flex items-center gap-3 rounded-lg bg-muted p-3 mb-2">
+            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground text-xs font-medium flex-shrink-0 aspect-square">
               A
             </div>
-            <div className="flex-1 text-sm">
-              <div className="font-medium">Admin User</div>
-              <div className="text-muted-foreground">admin@dss.local</div>
+            <div className="flex-1 text-sm min-w-0">
+              <div className="font-medium truncate">Admin User</div>
+              <div className="text-muted-foreground truncate">admin@dss.local</div>
             </div>
           </div>
         </div>

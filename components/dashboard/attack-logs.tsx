@@ -16,8 +16,8 @@ const mockAttackLogs = [
     timestamp: '2024-01-15T08:21:00Z',
     source_ip: '192.168.47.103',
     destination_ip: '192.168.47.103',
-    port: 'TCP',
-    threat_type: 'DDos',
+    port: 'TCP/443',
+    threat_type: 'DDoS',
     confidence_score: 97
   },
   {
@@ -25,27 +25,27 @@ const mockAttackLogs = [
     timestamp: '2024-01-15T08:21:00Z',
     source_ip: '192.168.47.103',
     destination_ip: '192.168.47.103',
-    port: 'TCP',
-    threat_type: 'DDos',
-    confidence_score: 97
+    port: 'TCP/22',
+    threat_type: 'SSH Brute Force',
+    confidence_score: 89
   },
   {
     id: 3,
     timestamp: '2024-01-15T08:21:00Z',
     source_ip: '192.168.47.103',
     destination_ip: '192.168.47.103',
-    port: 'TCP',
-    threat_type: 'DDos',
-    confidence_score: 97
+    port: 'TCP/80',
+    threat_type: 'DoS',
+    confidence_score: 94
   },
   {
     id: 4,
     timestamp: '2024-01-15T08:21:00Z',
     source_ip: '192.168.47.103',
     destination_ip: '192.168.47.103',
-    port: 'TCP',
-    threat_type: 'DDos',
-    confidence_score: 97
+    port: 'TCP/3389',
+    threat_type: 'Exploit',
+    confidence_score: 91
   }
 ]
 
@@ -117,15 +117,15 @@ export function AttackLogsTable() {
                       </TableCell>
                       <TableCell className="font-mono text-sm whitespace-nowrap py-0 px-2">{log.source_ip}</TableCell>
                       <TableCell className="font-mono text-sm whitespace-nowrap hidden sm:table-cell py-0 px-2">{log.destination_ip}</TableCell>
-                      <TableCell className="text-sm whitespace-nowrap hidden md:table-cell py-0 px-2">{log.protocol}</TableCell>
+                      <TableCell className="text-sm whitespace-nowrap hidden md:table-cell py-0 px-2">{(log as any).port}</TableCell>
                       <TableCell className="py-0 px-2">
                         <Badge variant="destructive" className="text-xs">
-                          {log.is_anomaly ? 'DDos' : 'Normal'}
+                          {(log as any).threat_type}
                         </Badge>
                       </TableCell>
                       <TableCell className="py-0.5 px-2">
-                        <Badge variant={getConfidenceColor(97) as any} className="text-xs">
-                          97%
+                        <Badge variant={getConfidenceColor((log as any).confidence_score) as any} className="text-xs">
+                          {(log as any).confidence_score}%
                         </Badge>
                       </TableCell>
                     </TableRow>

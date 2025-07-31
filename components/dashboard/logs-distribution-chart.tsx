@@ -31,7 +31,7 @@ export function LogsDistributionChart() {
           Logs Distribution
         </CardTitle>
       </CardHeader>
-      <CardContent className="p-3 py-0">
+      <CardContent className="p-3 pb-1 pt-0">
         <div className="grid grid-cols-2 gap-3">
           {/* Left side: Pie Chart (50% width) */}
           <div className="flex justify-center items-center">

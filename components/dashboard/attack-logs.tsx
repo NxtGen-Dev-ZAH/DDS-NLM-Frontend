@@ -63,7 +63,7 @@ export function AttackLogsTable() {
   }
 
   return (
-    <Card className="shadow-sm rounded-xl h-full flex flex-col max-h-[calc(100vh-400px)]">
+    <Card className="shadow-sm rounded-xl h-full flex flex-col max-h-[400px] sm:max-h-[450px] md:max-h-[500px] lg:max-h-[calc(100vh-400px)]">
       <CardHeader className="pb-0 px-3 flex-shrink-0">
         <CardTitle className="flex items-center gap-2 text-sm">
           <AlertTriangle className="h-4 w-4" />
@@ -76,7 +76,7 @@ export function AttackLogsTable() {
             <div className="text-muted-foreground">Loading attack logs...</div>
           </div>
         ) : (
-          <div className="overflow-auto h-full max-h-[calc(100vh-230px)]">
+          <div className="overflow-auto h-full max-h-[300px] sm:max-h-[350px] md:max-h-[400px] lg:max-h-[calc(100vh-380px)]">
             <Table>
               <TableHeader className="sticky top-0 bg-background z-10">
                 <TableRow>

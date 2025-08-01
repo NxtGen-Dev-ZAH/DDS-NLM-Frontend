@@ -257,7 +257,10 @@ export default function LogsPage() {
               <div className="text-muted-foreground">Loading logs...</div>
             </div>
           ) : (
-                         <div className="overflow-auto h-full max-h-[calc(100vh-215px)]">
+                         <div className="overflow-auto h-full max-h-[calc(100vh-215px)] custom-scrollbar" style={{
+               scrollbarWidth: 'thin',
+               scrollbarColor: 'hsl(var(--muted-foreground)) hsl(var(--muted))'
+             }}>
               <div className="overflow-x-auto">
                 <Table className="min-w-[600px] sm:min-w-0">
                   <TableHeader className="sticky top-0 bg-background z-10">

@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
-import { Search, Filter, Download, AlertTriangle, Loader2 } from 'lucide-react'
+import { Search, Download, AlertTriangle, Loader2 } from 'lucide-react'
 import { logsApi } from '@/lib/api'
 import { Log } from '@/types'
 import { format } from 'date-fns'
@@ -63,7 +63,7 @@ export default function LogsPage() {
     fetchLogs(true) // Reset to first page
   }, [severityFilter, anomalyFilter])
 
-  const fetchLogs = async (reset?: boolean) => {
+  const fetchLogs = useCallback(async (reset?: boolean) => {
     const shouldReset = reset ?? false
     try {
       if (shouldReset) {
@@ -73,13 +73,47 @@ export default function LogsPage() {
         setLoadingMore(true)
       }
 
-      // Simulate API delay
-      await new Promise(resolve => setTimeout(resolve, 1000))
+      // Build API parameters
+      const params: any = {
+        skip: shouldReset ? 0 : (currentPage - 1) * itemsPerPage,
+        limit: itemsPerPage,
+      }
 
-      // Use mock data for now
-      let filteredData = [...mockLogs]
+      // Add filters if not 'all'
+      if (severityFilter !== 'all') {
+        params.severity = severityFilter
+      }
+      if (anomalyFilter !== 'all') {
+        params.is_anomaly = anomalyFilter === 'anomaly'
+      }
+
+      // Call real API
+      const response = await logsApi.getLogs(params)
+      const newLogs = response.data
+
+      if (shouldReset) {
+        setLogs(newLogs)
+      } else {
+        setLogs(prev => [...prev, ...newLogs])
+      }
       
-      // Apply filters
+      // Update pagination state
+      setHasMore(newLogs.length === itemsPerPage)
+      setCurrentPage(prev => prev + 1)
+      
+      // For total count, we'd need a separate endpoint or response metadata
+      // For now, estimate based on current data
+      if (shouldReset) {
+        setTotalLogs(newLogs.length)
+      } else {
+        setTotalLogs(prev => prev + newLogs.length)
+      }
+    } catch (error) {
+      console.error('Failed to fetch logs:', error)
+      // Fallback to mock data if API fails
+      console.log('Falling back to mock data...')
+      
+      let filteredData = [...mockLogs]
       if (severityFilter !== 'all') {
         filteredData = filteredData.filter(log => log.severity === severityFilter)
       }
@@ -88,7 +122,6 @@ export default function LogsPage() {
         filteredData = filteredData.filter(log => log.is_anomaly === isAnomaly)
       }
       
-      // Apply pagination
       const startIndex = shouldReset ? 0 : (currentPage - 1) * itemsPerPage
       const endIndex = startIndex + itemsPerPage
       const paginatedData = filteredData.slice(startIndex, endIndex)
@@ -102,21 +135,22 @@ export default function LogsPage() {
       setTotalLogs(filteredData.length)
       setHasMore(endIndex < filteredData.length)
       setCurrentPage(prev => prev + 1)
-    } catch (error) {
-      console.error('Failed to fetch logs:', error)
     } finally {
       setLoading(false)
       setLoadingMore(false)
     }
-  }
+  }, [currentPage, severityFilter, anomalyFilter, itemsPerPage])
 
+  // Client-side search filtering (since API doesn't support search yet)
   const filteredLogs = logs.filter(log => {
-    const matchesSearch = searchTerm === '' || 
-      log.source_ip.includes(searchTerm) ||
-      log.destination_ip.includes(searchTerm) ||
-      log.protocol.toLowerCase().includes(searchTerm.toLowerCase())
+    if (!searchTerm) return true
     
-    return matchesSearch
+    const searchLower = searchTerm.toLowerCase()
+    return (
+      log.source_ip.toLowerCase().includes(searchLower) ||
+      log.destination_ip.toLowerCase().includes(searchLower) ||
+      log.protocol.toLowerCase().includes(searchLower)
+    )
   })
 
   const getSeverityColor = (severity: string) => {
@@ -135,49 +169,56 @@ export default function LogsPage() {
   }
 
   // Intersection Observer for infinite scrolling
-  const lastLogRef = useCallback((node: HTMLTableRowElement) => {
+  const lastLogRef = useCallback((node: HTMLDivElement) => {
     if (loadingMore || !hasMore) return
     if (observerRef.current) observerRef.current.disconnect()
     
     observerRef.current = new IntersectionObserver(entries => {
       if (entries[0].isIntersecting && hasMore && !loadingMore) {
         console.log('Loading more logs...')
-        fetchLogs()
+        fetchLogs(false) // Don't reset, just load more
       }
+    }, {
+      rootMargin: '100px', // Trigger 100px before the element is visible
+      threshold: 0.1
     })
     
     if (node) observerRef.current.observe(node)
-  }, [loadingMore, hasMore])
+  }, [loadingMore, hasMore, fetchLogs])
 
   return (
     <div className="space-y-4">
       {/* Logs Table with integrated filters */}
-      <Card className="shadow-sm rounded-xl h-full flex flex-col max-h-[calc(100vh-12vh)]">
-        <CardHeader className="pb-2 px-3 flex-shrink-0">
-          <div className="flex items-center justify-between">
-            <CardTitle className="flex items-center gap-2 text-sm">
-              <AlertTriangle className="h-4 w-4" />
+             <Card className="shadow-sm rounded-xl h-full flex flex-col max-h-[calc(100vh-0px)]">
+        <CardHeader className="pb-4 px-6 flex-shrink-0">
+          {/* Header Section */}
+          <div className="flex items-center justify-between mb-4">
+            <CardTitle className="flex items-center gap-3 text-lg font-semibold">
+              <AlertTriangle className="h-5 w-5 text-destructive" />
               System Logs
             </CardTitle>
-            <Button onClick={exportLogs} variant="outline" size="sm">
+            <Button onClick={exportLogs} variant="outline" size="sm" className="h-9 px-4">
               <Download className="mr-2 h-4 w-4" />
               Export
             </Button>
           </div>
           
-          {/* Compact Filters */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-3 mt-3">
-            <div className="relative">
-              <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
+          {/* Filters Section - All in one row */}
+          <div className="flex items-center gap-3">
+            {/* Search Bar */}
+            <div className="relative flex-1 max-w-xs">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input
                 placeholder="Search IPs, protocols..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10 h-8 text-sm"
+                className="pl-10 h-9 text-sm"
               />
             </div>
+            
+            {/* Severity Filter */}
             <Select value={severityFilter} onValueChange={setSeverityFilter}>
-              <SelectTrigger className="h-8 text-sm">
+              <SelectTrigger className="h-9 w-32 text-sm">
                 <SelectValue placeholder="Severity" />
               </SelectTrigger>
               <SelectContent>
@@ -188,8 +229,10 @@ export default function LogsPage() {
                 <SelectItem value="info">Info</SelectItem>
               </SelectContent>
             </Select>
+            
+            {/* Anomaly Filter */}
             <Select value={anomalyFilter} onValueChange={setAnomalyFilter}>
-              <SelectTrigger className="h-8 text-sm">
+              <SelectTrigger className="h-9 w-36 text-sm">
                 <SelectValue placeholder="Anomaly Status" />
               </SelectTrigger>
               <SelectContent>
@@ -198,54 +241,58 @@ export default function LogsPage() {
                 <SelectItem value="normal">Normal Only</SelectItem>
               </SelectContent>
             </Select>
-            <div className="text-sm text-muted-foreground flex items-center">
-              Total: {totalLogs.toLocaleString()} logs
+            
+            {/* Total Logs Counter */}
+            <div className="flex items-center h-9 px-3 bg-muted/30 rounded-md border border-muted-foreground/20">
+              <span className="text-sm text-muted-foreground font-medium whitespace-nowrap">
+                {totalLogs.toLocaleString()} logs
+              </span>
             </div>
           </div>
         </CardHeader>
-        <CardContent className="py-0.5 px-2 flex-1 overflow-hidden">
+        
+        <CardContent className="py-0 px-2 flex-1 overflow-hidden">
           {loading ? (
             <div className="flex items-center justify-center h-full">
               <div className="text-muted-foreground">Loading logs...</div>
             </div>
           ) : (
-            <div className="overflow-auto h-full max-h-[450px] sm:max-h-[500px] md:max-h-[550px] lg:max-h-[calc(100vh-150px)]">
+                         <div className="overflow-auto h-full max-h-[calc(100vh-215px)]">
               <div className="overflow-x-auto">
                 <Table className="min-w-[600px] sm:min-w-0">
                   <TableHeader className="sticky top-0 bg-background z-10">
                     <TableRow>
-                      <TableHead className="text-xs whitespace-nowrap py-0.5 px-0 sm:px-0.5 md:px-2">Timestamp</TableHead>
-                      <TableHead className="text-xs whitespace-nowrap py-0.5 px-0 sm:px-0.5 md:px-2">Source IP</TableHead>
-                      <TableHead className="text-xs whitespace-nowrap py-0.5 px-0 sm:px-0.5 md:px-2">Destination IP</TableHead>
-                      <TableHead className="text-xs whitespace-nowrap py-0.5 px-0 sm:px-0.5 md:px-2">Protocol</TableHead>
-                      <TableHead className="text-xs whitespace-nowrap py-0.5 px-0 sm:px-0.5 md:px-2">Port</TableHead>
-                      <TableHead className="text-xs whitespace-nowrap py-0.5 px-0 sm:px-0.5 md:px-2">Size</TableHead>
-                      <TableHead className="text-xs whitespace-nowrap py-0.5 px-0 sm:px-0.5 md:px-2">Severity</TableHead>
-                      <TableHead className="text-xs whitespace-nowrap py-0.5 px-0 sm:px-0.5 md:px-2">Anomaly</TableHead>
+                      <TableHead className="text-xs whitespace-nowrap py-2 px-2">Timestamp</TableHead>
+                      <TableHead className="text-xs whitespace-nowrap py-2 px-2">Source IP</TableHead>
+                      <TableHead className="text-xs whitespace-nowrap py-2 px-2">Destination IP</TableHead>
+                      <TableHead className="text-xs whitespace-nowrap py-2 px-2">Protocol</TableHead>
+                      <TableHead className="text-xs whitespace-nowrap py-2 px-2">Port</TableHead>
+                      <TableHead className="text-xs whitespace-nowrap py-2 px-2">Size</TableHead>
+                      <TableHead className="text-xs whitespace-nowrap py-2 px-2">Severity</TableHead>
+                      <TableHead className="text-xs whitespace-nowrap py-2 px-2">Anomaly</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {filteredLogs.map((log, index) => (
-                      <TableRow 
-                        key={log.id} 
-                        ref={index === filteredLogs.length - 1 ? lastLogRef : undefined}
-                      >
-                        <TableCell className="font-mono text-xs whitespace-nowrap py-0 px-0 sm:px-0.5 md:px-2">
+                                         {filteredLogs.map((log, index) => (
+                       <TableRow 
+                         key={log.id}
+                       >
+                        <TableCell className="font-mono text-xs whitespace-nowrap py-2 px-2">
                           {format(new Date(log.timestamp), 'HH:mm')}
                         </TableCell>
-                        <TableCell className="font-mono text-xs whitespace-nowrap py-0 px-0 sm:px-0.5 md:px-2">{log.source_ip}</TableCell>
-                        <TableCell className="font-mono text-xs whitespace-nowrap py-0 px-0 sm:px-0.5 md:px-2">{log.destination_ip}</TableCell>
-                        <TableCell className="text-xs whitespace-nowrap py-0 px-0 sm:px-0.5 md:px-2">{log.protocol}</TableCell>
-                        <TableCell className="font-mono text-xs whitespace-nowrap py-0 px-0 sm:px-0.5 md:px-2">
+                        <TableCell className="font-mono text-xs whitespace-nowrap py-2 px-2">{log.source_ip}</TableCell>
+                        <TableCell className="font-mono text-xs whitespace-nowrap py-2 px-2">{log.destination_ip}</TableCell>
+                        <TableCell className="text-xs whitespace-nowrap py-2 px-2">{log.protocol}</TableCell>
+                        <TableCell className="font-mono text-xs whitespace-nowrap py-2 px-2">
                           {log.destination_port}
                         </TableCell>
-                        <TableCell className="text-xs whitespace-nowrap py-0 px-0 sm:px-0.5 md:px-2">{log.packet_size.toLocaleString()} B</TableCell>
-                        <TableCell className="py-0 px-0 sm:px-0.5 md:px-2">
+                        <TableCell className="text-xs whitespace-nowrap py-2 px-2">{log.packet_size.toLocaleString()} B</TableCell>
+                        <TableCell className="py-2 px-2">
                           <Badge variant={getSeverityColor(log.severity) as any} className="text-xs">
                             {log.severity}
                           </Badge>
                         </TableCell>
-                        <TableCell className="py-0.5 px-0 sm:px-0.5 md:px-2">
+                        <TableCell className="py-2 px-2">
                           {log.is_anomaly ? (
                             <Badge variant="destructive" className="text-xs">Anomaly</Badge>
                           ) : (
@@ -257,20 +304,39 @@ export default function LogsPage() {
                   </TableBody>
                 </Table>
                 
-                {/* Loading indicator for infinite scroll */}
-                {loadingMore && (
-                  <div className="flex items-center justify-center py-4">
-                    <Loader2 className="h-4 w-4 animate-spin mr-2" />
-                    <div className="text-muted-foreground text-sm">Loading more logs...</div>
-                  </div>
-                )}
-                
-                {/* End of data indicator */}
-                {!hasMore && filteredLogs.length > 0 && (
-                  <div className="flex items-center justify-center py-4">
-                    <div className="text-muted-foreground text-sm">No more logs to load</div>
-                  </div>
-                )}
+                                 {/* Loading indicator for infinite scroll */}
+                 {loadingMore && (
+                   <div className="flex items-center justify-center py-6">
+                     <Loader2 className="h-5 w-5 animate-spin mr-3" />
+                     <div className="text-muted-foreground text-sm font-medium">Loading more logs...</div>
+                   </div>
+                 )}
+                 
+                 {/* End of data indicator */}
+                 {!hasMore && filteredLogs.length > 0 && (
+                   <div className="flex items-center justify-center py-6">
+                     <div className="text-muted-foreground text-sm font-medium">No more logs to load</div>
+                   </div>
+                 )}
+                 
+                 {/* Empty state */}
+                 {!loading && filteredLogs.length === 0 && (
+                   <div className="flex items-center justify-center py-12">
+                     <div className="text-center">
+                       <div className="text-muted-foreground text-sm font-medium mb-2">No logs found</div>
+                       <div className="text-muted-foreground text-xs">Try adjusting your filters or search terms</div>
+                     </div>
+                   </div>
+                 )}
+                 
+                 {/* Intersection observer trigger element */}
+                 {hasMore && !loadingMore && (
+                   <div 
+                     ref={lastLogRef}
+                     className="h-4 w-full"
+                     style={{ marginTop: '20px' }}
+                   />
+                 )}
               </div>
             </div>
           )}

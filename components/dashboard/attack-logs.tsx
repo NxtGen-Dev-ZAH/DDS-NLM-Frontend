@@ -77,43 +77,45 @@ export function AttackLogsTable() {
           </div>
         ) : (
           <div className="overflow-auto h-full max-h-[300px] sm:max-h-[350px] md:max-h-[400px] lg:max-h-[calc(100vh-380px)]">
-            <Table>
-              <TableHeader className="sticky top-0 bg-background z-10">
-                <TableRow>
-                  <TableHead className="text-xs whitespace-nowrap py-0.5 px-2">Time</TableHead>
-                  <TableHead className="text-xs whitespace-nowrap py-0.5 px-2">Source IP</TableHead>
-                  <TableHead className="text-xs whitespace-nowrap hidden sm:table-cell py-0.5 px-2">Destination IP</TableHead>
-                  <TableHead className="text-xs whitespace-nowrap hidden md:table-cell py-0.5 px-2">Port</TableHead>
-                  <TableHead className="text-xs whitespace-nowrap py-0.5 px-2">Threat Type</TableHead>
-                  <TableHead className="text-xs whitespace-nowrap py-0.5 px-2">Confidence</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {logs.map((log) => (
-                  <TableRow key={log.id}>
-                    <TableCell className="font-mono text-sm whitespace-nowrap py-0 px-2">
-                      {format(new Date(log.timestamp), 'HH:mm')}
-                    </TableCell>
-                    <TableCell className="font-mono text-sm whitespace-nowrap py-0 px-2">{log.source_ip}</TableCell>
-                    <TableCell className="font-mono text-sm whitespace-nowrap hidden sm:table-cell py-0 px-2">{log.destination_ip}</TableCell>
-                    <TableCell className="text-sm whitespace-nowrap hidden md:table-cell py-0 px-2">{(log as any).port}</TableCell>
-                    <TableCell className="py-0 px-2">
-                      <Badge variant="destructive" className="text-xs">
-                        {(log as any).threat_type}
-                      </Badge>
-                    </TableCell>
-                    <TableCell className="py-0.5 px-2">
-                      <Badge variant={getConfidenceColor((log as any).confidence_score) as any} className="text-xs">
-                        {(log as any).confidence_score}%
-                      </Badge>
-                    </TableCell>
+            <div className="overflow-x-auto">
+              <Table className="min-w-[600px] sm:min-w-0">
+                <TableHeader className="sticky top-0 bg-background z-10">
+                  <TableRow>
+                    <TableHead className="text-xs whitespace-nowrap py-0.5 px-0 sm:px-0.5 md:px-2">Time</TableHead>
+                    <TableHead className="text-xs whitespace-nowrap py-0.5 px-0 sm:px-0.5 md:px-2">Source IP</TableHead>
+                    <TableHead className="text-xs whitespace-nowrap py-0.5 px-0 sm:px-0.5 md:px-2">Destination IP</TableHead>
+                    <TableHead className="text-xs whitespace-nowrap py-0.5 px-0 sm:px-0.5 md:px-2">Port</TableHead>
+                    <TableHead className="text-xs whitespace-nowrap py-0.5 px-0 sm:px-0.5 md:px-2">Threat Type</TableHead>
+                    <TableHead className="text-xs whitespace-nowrap py-0.5 px-0 sm:px-0.5 md:px-2">Confidence</TableHead>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+                </TableHeader>
+                <TableBody>
+                  {logs.map((log) => (
+                    <TableRow key={log.id}>
+                      <TableCell className="font-mono text-xs whitespace-nowrap py-0 px-0 sm:px-0.5 md:px-2">
+                        {format(new Date(log.timestamp), 'HH:mm')}
+                      </TableCell>
+                      <TableCell className="font-mono text-xs whitespace-nowrap py-0 px-0 sm:px-0.5 md:px-2">{log.source_ip}</TableCell>
+                      <TableCell className="font-mono text-xs whitespace-nowrap py-0 px-0 sm:px-0.5 md:px-2">{log.destination_ip}</TableCell>
+                      <TableCell className="text-xs whitespace-nowrap py-0 px-0 sm:px-0.5 md:px-2">{(log as any).port}</TableCell>
+                      <TableCell className="py-0 px-0 sm:px-0.5 md:px-2">
+                        <Badge variant="destructive" className="text-xs">
+                          {(log as any).threat_type}
+                        </Badge>
+                      </TableCell>
+                      <TableCell className="py-0.5 px-0 sm:px-0.5 md:px-2">
+                        <Badge variant={getConfidenceColor((log as any).confidence_score) as any} className="text-xs">
+                          {(log as any).confidence_score}%
+                        </Badge>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
           </div>
         )}
       </CardContent>
     </Card>
   )
-} 
+}   

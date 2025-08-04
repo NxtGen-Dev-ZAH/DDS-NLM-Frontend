@@ -1,39 +1,39 @@
-import { StatsCards } from '@/components/dashboard/stats-cards'
-import { RealTimeLogs } from '@/components/dashboard/real-time-logs'
-import { IncidentsPanel } from '@/components/dashboard/incidents-panel'
-import { AiChat } from '@/components/dashboard/ai-chat'
+import { TotalLogsCard, AnomaliesCard, BlockedIPsCard, UnblockedIPsCard } from '@/components/dashboard/stats-cards'
+import { LiveTrafficChart } from '@/components/dashboard/live-traffic-chart'
+import { LogsDistributionChart } from '@/components/dashboard/logs-distribution-chart'
+import { AttackLogsTable } from '@/components/dashboard/attack-logs'
 
 export default function DashboardPage() {
   return (
-    <div className="space-y-6">
-      {/* Page Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">Security Dashboard</h1>
-          <p className="text-muted-foreground">
-            Real-time network monitoring and threat detection system
-          </p>
+    <div className="space-y-3 p-0 pl-1">
+      {/* Main Content Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-3">
+        {/* Left Column: Stats Cards + Live Traffic */}
+        <div className="lg:col-span-8 space-y-3">
+          {/* Stats Cards Row */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
+            <TotalLogsCard />
+            <AnomaliesCard />
+            <BlockedIPsCard />
+            <UnblockedIPsCard />
+          </div>
+
+          {/* Live Traffic Chart */}
+          <div>
+            <LiveTrafficChart />
+          </div>
+        </div>
+
+        {/* Right Column: Logs Distribution Chart */}
+        <div className="lg:col-span-4">
+          <LogsDistributionChart />
         </div>
       </div>
 
-      {/* Statistics Cards */}
-      <StatsCards />
-
-      {/* Main Dashboard Grid */}
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {/* Real-time Logs - Takes 2 columns */}
-        <div className="lg:col-span-2">
-          <RealTimeLogs />
-        </div>
-
-        {/* AI Chat Assistant */}
-        <div className="lg:col-span-1">
-          <AiChat />
-        </div>
+      {/* Attack Logs Table - Full width below charts */}
+      <div className="w-full">
+        <AttackLogsTable />
       </div>
-
-      {/* Incidents Panel - Full width */}
-      <IncidentsPanel />
     </div>
   )
 }

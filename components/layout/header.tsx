@@ -1,10 +1,20 @@
 'use client'
 
-import { Bell, Wifi, WifiOff, Shield, Search, User } from 'lucide-react'
+import {
+  Bell,
+  Wifi,
+  WifiOff,
+  Shield,
+  Search,
+  User,
+  Menu,
+  AlertTriangle,
+} from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Input } from '@/components/ui/input'
-import { 
+import { Card } from '@/components/ui/card'
+import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
@@ -12,114 +22,124 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { ThemeToggle } from '@/components/ui/theme-toggle'
 import { useWebSocket } from '@/lib/websocket'
 import { cn } from '@/lib/utils'
 
 interface HeaderProps {
   className?: string
+  onMobileMenuToggle?: () => void
 }
 
-export function Header({ className }: HeaderProps) {
-  const { isConnected, connectionError } = useWebSocket()
+export function Header({ className, onMobileMenuToggle }: HeaderProps) {
+  const { isConnected } = useWebSocket()
 
   return (
-    <header className={cn("flex h-16 items-center gap-4 border-b bg-background px-6", className)}>
-      {/* Search */}
-      <div className="flex-1 max-w-md">
-        <div className="relative">
-          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+    <div
+      className={cn(
+        'flex flex-row h-12 items-center justify-between px-3 sm:px-4',
+        className
+      )}
+    >
+      {/* Left Section */}
+      <div className="flex items-center gap-4">
+        {/* Mobile Menu Button */}
+        <Button
+          variant="ghost"
+          size="icon"
+          className="md:hidden"
+          onClick={onMobileMenuToggle}
+        >
+          <div className="w-6 h-6 bg-muted rounded-full flex items-center justify-center">
+            <Menu className="h-3 w-3 text-muted-foreground" />
+          </div>
+        </Button>
+
+        {/* DSS WORKFLOW Title */}
+        <div className="flex items-center gap-1.5">
+          <div className="w-6 h-6 bg-primary rounded-full flex items-center justify-center">
+            <span className="text-primary-foreground font-semibold text-xs">D</span>
+          </div>
+          <h1 className="text-sm font-bold tracking-wide text-foreground">
+            DSS WORKFLOW
+          </h1>
+        </div>
+      </div>
+
+      {/* Center Section - Search Bar */}
+      <div className="flex-1 flex justify-center max-w-sm mx-4">
+        <div className="relative w-full">
+          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground z-10" />
           <Input
-            placeholder="Search logs, incidents, IPs..."
-            className="pl-10"
+            placeholder="Search"
+            className="pl-10 py-1.5 rounded-full text-sm bg-background/60 border-border/60 backdrop-blur-sm"
           />
         </div>
       </div>
 
-      {/* Right side */}
-      <div className="flex items-center gap-4">
+      {/* Right Section */}
+      <div className="flex items-center gap-2">
         {/* Connection Status */}
-        <div className="flex items-center gap-2">
-          {isConnected ? (
-            <>
-              <Wifi className="h-4 w-4 text-green-500" />
-              <Badge variant="outline" className="text-green-600">
-                Live
-              </Badge>
-            </>
-          ) : (
-            <>
-              <WifiOff className="h-4 w-4 text-red-500" />
-              <Badge variant="destructive">
-                Offline
-              </Badge>
-            </>
-          )}
+        <div className="hidden lg:flex items-center gap-2">
+          <div className="w-6 h-6 bg-muted rounded-full flex items-center justify-center">
+            {isConnected ? (
+              <Wifi className="h-3 w-3 text-muted-foreground" />
+            ) : (
+              <WifiOff className="h-3 w-3 text-muted-foreground" />
+            )}
+          </div>
+          <span className="text-xs text-muted-foreground">
+            {isConnected ? 'Connected' : 'Disconnected'}
+          </span>
         </div>
 
-        {/* System Status */}
-        <div className="flex items-center gap-2">
-          <Shield className="h-4 w-4 text-blue-500" />
-          <Badge variant="outline" className="text-blue-600">
-            Secure
-          </Badge>
+        {/* Theme Toggle */}
+        <div className="w-6 h-6 bg-muted rounded-full flex items-center justify-center">
+          <ThemeToggle />
         </div>
 
         {/* Notifications */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" size="icon" className="relative">
-              <Bell className="h-4 w-4" />
-              <Badge className="absolute -top-1 -right-1 h-5 w-5 rounded-full p-0 text-xs">
-                3
-              </Badge>
+              <div className="w-6 h-6 bg-muted rounded-full flex items-center justify-center">
+                <Bell className="h-3 w-3 text-muted-foreground" />
+                <Badge className="absolute -top-1 -right-1 h-3 w-3 p-0 text-[8px] leading-none bg-red-500">
+                  3
+                </Badge>
+              </div>
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-80">
             <DropdownMenuLabel>Notifications</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
-              <div className="flex flex-col gap-1">
-                <div className="text-sm font-medium">Anomaly Detected</div>
-                <div className="text-xs text-muted-foreground">
-                  Suspicious activity from 192.168.1.100
+              <div className="flex items-center gap-2">
+                <AlertTriangle className="h-4 w-4 text-orange-500" />
+                <div>
+                  <p className="text-sm font-medium">New anomaly detected</p>
+                  <p className="text-xs text-muted-foreground">2 minutes ago</p>
                 </div>
-                <div className="text-xs text-muted-foreground">2 minutes ago</div>
               </div>
             </DropdownMenuItem>
             <DropdownMenuItem>
-              <div className="flex flex-col gap-1">
-                <div className="text-sm font-medium">Critical Incident</div>
-                <div className="text-xs text-muted-foreground">
-                  Potential SQL injection attempt detected
+              <div className="flex items-center gap-2">
+                <Shield className="h-4 w-4 text-green-500" />
+                <div>
+                  <p className="text-sm font-medium">System scan completed</p>
+                  <p className="text-xs text-muted-foreground">5 minutes ago</p>
                 </div>
-                <div className="text-xs text-muted-foreground">5 minutes ago</div>
               </div>
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <div className="flex flex-col gap-1">
-                <div className="text-sm font-medium">System Update</div>
-                <div className="text-xs text-muted-foreground">
-                  ML models retrained successfully
-                </div>
-                <div className="text-xs text-muted-foreground">1 hour ago</div>
-              </div>
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem className="text-center">
-              <Button variant="ghost" size="sm" className="w-full">
-                View All Notifications
-              </Button>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
 
-        {/* User Menu */}
+        {/* User Avatar */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-              
-              <div className="flex h-8 w-8 items-center justify-center rounded-2xl bg-primary text-primary-foreground text-sm font-medium">
-                <User className="h-4 w-4" />
+            <Button variant="ghost" size="icon" className="rounded-full">
+              <div className="w-6 h-6 bg-muted rounded-full flex items-center justify-center">
+                <User className="h-3 w-3 text-muted-foreground" />
               </div>
             </Button>
           </DropdownMenuTrigger>
@@ -128,12 +148,11 @@ export function Header({ className }: HeaderProps) {
             <DropdownMenuSeparator />
             <DropdownMenuItem>Profile</DropdownMenuItem>
             <DropdownMenuItem>Settings</DropdownMenuItem>
-            <DropdownMenuItem>Help</DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>Log out</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-    </header>
+    </div>
   )
-} 
+}

@@ -1,179 +1,135 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
-import { Skeleton } from '@/components/ui/skeleton'
-import { 
-  Activity, 
-  AlertTriangle, 
-  Shield, 
+import React from 'react'
+import {
   TrendingUp,
   TrendingDown,
-  Eye,
-  Users,
-  Clock
+  FileText,
+  AlertTriangle,
+  Ban,
+  Unlock,
 } from 'lucide-react'
-import { dashboardApi, handleApiError } from '@/lib/api'
-import { DashboardStats } from '@/types'
+import { Card } from '@/components/ui/card'
 import { cn } from '@/lib/utils'
 
-interface StatsCardsProps {
-  className?: string
+const mockStats = {
+  totalLogs: 2031,
+  anomalies: 205,
+  blockedIPs: 137,
+  unblockedIPs: 5,
 }
 
-export function StatsCards({ className }: StatsCardsProps) {
-  const [stats, setStats] = useState<DashboardStats | null>(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
+// Shared styling
+const cardStyle = 'bg-card border rounded-xl px-2 py-1.5 h-16 shadow-sm'
 
-  useEffect(() => {
-    const fetchStats = async () => {
-      try {
-        setLoading(true)
-        const data = await dashboardApi.getStats()
-        setStats(data)
-        setError(null)
-      } catch (err) {
-        setError(handleApiError(err))
-        console.error('Failed to fetch dashboard stats:', err)
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    fetchStats()
-    
-    // Refresh stats every 30 seconds
-    const interval = setInterval(fetchStats, 30000)
-    return () => clearInterval(interval)
-  }, [])
-
-  if (loading) {
-    return (
-      <div className={cn("grid gap-4 md:grid-cols-2 lg:grid-cols-4", className)}>
-        {Array.from({ length: 4 }).map((_, i) => (
-          <Card key={i}>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <Skeleton className="h-4 w-20" />
-              <Skeleton className="h-4 w-4" />
-            </CardHeader>
-            <CardContent>
-              <Skeleton className="h-8 w-16 mb-2" />
-              <Skeleton className="h-3 w-24" />
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-    )
-  }
-
-  if (error) {
-    return (
-      <div className={cn("grid gap-4 md:grid-cols-2 lg:grid-cols-4", className)}>
-        <Card className="col-span-full">
-          <CardContent className="pt-6">
-            <div className="flex items-center gap-2 text-destructive">
-              <AlertTriangle className="h-4 w-4" />
-              <span>Failed to load dashboard statistics: {error}</span>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-    )
-  }
-
-  const getSystemHealthColor = (health: string) => {
-    switch (health) {
-      case 'healthy': return 'text-green-600'
-      case 'warning': return 'text-yellow-600'
-      case 'critical': return 'text-red-600'
-      default: return 'text-gray-600'
-    }
-  }
-
-  const getSystemHealthIcon = (health: string) => {
-    switch (health) {
-      case 'healthy': return <Shield className="h-4 w-4 text-green-600" />
-      case 'warning': return <AlertTriangle className="h-4 w-4 text-yellow-600" />
-      case 'critical': return <AlertTriangle className="h-4 w-4 text-red-600" />
-      default: return <Shield className="h-4 w-4 text-gray-600" />
-    }
-  }
-
+function StatCard({
+  title,
+  value,
+  icon,
+  iconColor,
+  delta,
+  deltaType,
+}: {
+  title: string
+  value: string | number
+  icon: React.ReactElement
+  iconColor: string
+  delta: string
+  deltaType: 'up' | 'down'
+}) {
   return (
-    <div className={cn("grid gap-4 md:grid-cols-2 lg:grid-cols-4", className)}>
-      {/* Total Logs */}
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Total Logs</CardTitle>
-          <Activity className="h-4 w-4 text-muted-foreground" />
-        </CardHeader>
-        <CardContent>
-          <div className="text-2xl font-bold">{stats?.total_logs.toLocaleString() || '0'}</div>
-          <p className="text-xs text-muted-foreground">
-            <TrendingUp className="inline h-3 w-3 mr-1" />
-            +12% from last hour
-          </p>
-        </CardContent>
-      </Card>
+    <Card className={cardStyle}>
+      <div className="flex flex-col justify-between h-full">
+        {/* Top: Title + Icon */}
+        <div className="flex items-center justify-between text-xs font-medium text-muted-foreground">
+          <span className="truncate">{title}</span>
+          <div className={cn('h-3 w-3 flex-shrink-0, pr-6', iconColor)}>{icon}</div>
+        </div>
 
-      {/* Anomalies Today */}
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Anomalies Today</CardTitle>
-          <Eye className="h-4 w-4 text-muted-foreground" />
-        </CardHeader>
-        <CardContent>
-          <div className="text-2xl font-bold text-orange-600">
-            {stats?.anomalies_today || 0}
-          </div>
-          <p className="text-xs text-muted-foreground">
-            <TrendingDown className="inline h-3 w-3 mr-1 text-green-600" />
-            -8% from yesterday
-          </p>
-        </CardContent>
-      </Card>
+        {/* Middle: Value */}
+        <div className="text-sm font-bold text-foreground leading-none">
+          {value}
+        </div>
 
-      {/* Critical Incidents */}
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Critical Incidents</CardTitle>
-          <AlertTriangle className="h-4 w-4 text-muted-foreground" />
-        </CardHeader>
-        <CardContent>
-          <div className="text-2xl font-bold text-red-600">
-            {stats?.critical_incidents || 0}
-          </div>
-          <p className="text-xs text-muted-foreground">
-            <Clock className="inline h-3 w-3 mr-1" />
-            Avg response: 2.3m
-          </p>
-        </CardContent>
-      </Card>
+        {/* Bottom: Delta */}
+        <p className="text-[8px] text-muted-foreground leading-none flex items-center">
+          {deltaType === 'up' ? (
+            <TrendingUp className="inline h-2 w-2 mr-1 text-green-500" />
+          ) : (
+            <TrendingDown className="inline h-2 w-2 mr-1 text-red-500" />
+          )}
+          {delta}
+        </p>
+      </div>
+    </Card>
+  )
+}
 
-      {/* System Health */}
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">System Health</CardTitle>
-          {getSystemHealthIcon(stats?.system_health || 'healthy')}
-        </CardHeader>
-        <CardContent>
-          <div className="text-2xl font-bold">
-            <Badge 
-              variant={stats?.system_health === 'healthy' ? 'default' : 
-                      stats?.system_health === 'warning' ? 'secondary' : 'destructive'}
-              className="text-lg px-3 py-1"
-            >
-              {stats?.system_health?.toUpperCase() || 'UNKNOWN'}
-            </Badge>
-          </div>
-          <p className="text-xs text-muted-foreground">
-            <Users className="inline h-3 w-3 mr-1" />
-            All agents online
-          </p>
-        </CardContent>
-      </Card>
+// Individual stat cards
+export function TotalLogsCard() {
+  return (
+    <StatCard
+      title="Total Logs"
+      value={mockStats.totalLogs.toLocaleString()}
+      icon={<FileText />}
+      iconColor="text-blue-500"
+      delta="+101"
+      deltaType="up"
+    />
+  )
+}
+
+export function AnomaliesCard() {
+  return (
+    <StatCard
+      title="Anomalies"
+      value={mockStats.anomalies}
+      icon={<AlertTriangle />}
+      iconColor="text-orange-500"
+      delta="+24"
+      deltaType="up"
+    />
+  )
+}
+
+export function BlockedIPsCard() {
+  return (
+    <StatCard
+      title="Blocked IPs"
+      value={mockStats.blockedIPs}
+      icon={<Ban />}
+      iconColor="text-red-500"
+      delta="+10"
+      deltaType="up"
+    />
+  )
+}
+
+export function UnblockedIPsCard() {
+  return (
+    <StatCard
+      title="Unblocked IPs"
+      value={mockStats.unblockedIPs.toString().padStart(2, '0')}
+      icon={<Unlock />}
+      iconColor="text-red-600"
+      delta="-1"
+      deltaType="down"
+    />
+  )
+}
+
+export function StatsCards({ className }: { className?: string }) {
+  return (
+    <div
+      className={cn(
+        'grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4',
+        className
+      )}
+    >
+      <TotalLogsCard />
+      <AnomaliesCard />
+      <BlockedIPsCard />
+      <UnblockedIPsCard />
     </div>
   )
-} 
+}

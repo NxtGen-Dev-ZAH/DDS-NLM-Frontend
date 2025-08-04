@@ -44,12 +44,12 @@
 
 :root {
   --radius: 0.625rem;
-  /* Light Mode Colors - Darker Shades */
-  --background: #F1F3F4; /* Darker background */
+  /* Light Mode Colors - Updated */
+  --background: #C6C6C6; /* Updated background color */
   --foreground: #1F2937; /* Darker text */
-  --card: #FAFAFA; /* Slightly off-white cards */
+  --card: #E3E3E8; /* Updated card background */
   --card-foreground: #1F2937;
-  --popover: #FAFAFA;
+  --popover: #E3E3E8; /* Updated popover background */
   --popover-foreground: #1F2937;
   --primary: #1E40AF; /* Darker blue for light mode */
   --primary-foreground: #FFFFFF;
@@ -61,14 +61,14 @@
   --accent-foreground: #1F2937;
   --destructive: #B91C1C; /* Darker red for light mode */
   --border: #D1D5DB; /* Darker border */
-  --input: #FAFAFA;
+  --input: #E3E3E8; /* Updated input background */
   --ring: #1E40AF; /* Darker blue for focus */
   --chart-1: #1E40AF; /* Darker blue for charts */
   --chart-2: #D97706; /* Darker orange for light mode */
   --chart-3: #B91C1C; /* Darker red for light mode */
   --chart-4: #1E40AF; /* Darker blue */
   --chart-5: #D97706; /* Darker orange */
-  --sidebar: #F1F3F4; /* Match darker background */
+  --sidebar: #C6C6C6; /* Match updated background */
   --sidebar-foreground: #1F2937;
   --sidebar-primary: #D97706; /* Orange highlight for light mode */
   --sidebar-primary-foreground: #FFFFFF;
@@ -79,13 +79,13 @@
 }
 
 .dark {
-  /* Dark Mode Colors - Lighter Shades */
+  /* Dark Mode Colors - Updated */
   --background: #0F0F0F; /* Full dark screen background */
-  --foreground: #FFFFFF; /* Primary text */
+  --foreground: #E3E3E8; /* Updated foreground color */
   --card: #1F1F23; /* Card background */
-  --card-foreground: #FFFFFF;
-  --popover: #1F1F23;
-  --popover-foreground: #FFFFFF;
+  --card-foreground: #E3E3E8; /* Updated card foreground */
+  --popover: #1F1F23; /* Popover background */
+  --popover-foreground: #E3E3E8; /* Updated popover foreground */
   --primary: #60A5FA; /* Lighter blue for dark mode */
   --primary-foreground: #0F0F0F;
   --secondary: #A1A1AA; /* Secondary text */
@@ -104,7 +104,7 @@
   --chart-4: #60A5FA; /* Lighter blue */
   --chart-5: #FBBF24; /* Lighter orange */
   --sidebar: #18181B; /* Sidebar background */
-  --sidebar-foreground: #FFFFFF;
+  --sidebar-foreground: #E3E3E8; /* Updated sidebar foreground */
   --sidebar-primary: #FBBF24; /* Lighter orange highlight for dark mode */
   --sidebar-primary-foreground: #0F0F0F;
   --sidebar-accent: #2D2D30;
@@ -139,5 +139,13 @@
   
   .custom-scrollbar::-webkit-scrollbar-thumb:hover {
     background: hsl(var(--foreground));
+  }
+  
+  /* Line clamp utility for search results */
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 }

@@ -130,7 +130,7 @@ export function AiChat({ className }: AiChatProps) {
       
       <CardContent className="space-y-4">
         {/* Chat Messages */}
-        <ScrollArea className="h-80 w-full rounded-md border p-4">
+        <ScrollArea className="h-80 w-full rounded-md border p-4 chat-scrollbar">
           <div className="space-y-4">
             {messages.map((message) => (
               <div

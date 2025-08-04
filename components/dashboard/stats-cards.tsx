@@ -52,7 +52,10 @@ function StatCard({
         </div>
 
         {/* Bottom: Delta */}
-        <p className="text-[8px] text-muted-foreground leading-none flex items-center">
+        <p className={cn(
+          "text-[8px] leading-none flex items-center",
+          deltaType === 'up' ? 'text-green-600' : 'text-red-600'
+        )}>
           {deltaType === 'up' ? (
             <TrendingUp className="inline h-2 w-2 mr-1" />
           ) : (
@@ -72,7 +75,7 @@ export function TotalLogsCard() {
       title="Total Logs"
       value={mockStats.totalLogs.toLocaleString()}
       icon={<FileText />}
-      iconColor=""
+      iconColor="text-blue-500"
       delta="+101"
       deltaType="up"
     />
@@ -85,7 +88,7 @@ export function AnomaliesCard() {
       title="Anomalies"
       value={mockStats.anomalies}
       icon={<AlertTriangle />}
-      iconColor=""
+      iconColor="text-orange-500"
       delta="+24"
       deltaType="up"
     />
@@ -98,7 +101,7 @@ export function BlockedIPsCard() {
       title="Blocked IPs"
       value={mockStats.blockedIPs}
       icon={<Ban />}
-      iconColor=""
+      iconColor="text-red-500"
       delta="+10"
       deltaType="up"
     />
@@ -111,7 +114,7 @@ export function UnblockedIPsCard() {
       title="Unblocked IPs"
       value={mockStats.unblockedIPs.toString().padStart(2, '0')}
       icon={<Unlock />}
-      iconColor=""
+      iconColor="text-green-500"
       delta="-1"
       deltaType="down"
     />

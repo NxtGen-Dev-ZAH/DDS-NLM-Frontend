@@ -21,10 +21,9 @@ const attackTypesData = [
 ]
 
 export function LogsDistributionChart() {
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
 
   return (
-    <Card className="shadow-sm rounded-xl">
+    <Card className="shadow-sm rounded-xl select-none">
       <CardHeader className="pb-0 pt-0 px-3">
         <CardTitle className="flex items-center gap-2 text-sm">
           <AlertTriangle className="h-4 w-4" />
@@ -33,38 +32,30 @@ export function LogsDistributionChart() {
       </CardHeader>
       <CardContent className="p-3 pb-1 pt-0">
         <div className="grid grid-cols-3 gap-2">
-          {/* Left side: Pie Chart (50% width) */}
-          <div className="flex justify-center items-center col-span-2">
-            <div className="w-32 h-32 relative group">
+                     {/* Left side: Pie Chart (50% width) */}
+           <div className="flex justify-center items-center col-span-2 select-none">
+             <div className="w-32 h-32 relative group select-none">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
-                  <Pie
-                    data={logsDistributionData}
-                    cx="50%"
-                    cy="50%"
-                    innerRadius={35}
-                    outerRadius={55}
-                    paddingAngle={0}
-                    dataKey="value"
-                    stroke="none"
-                  >
-                    {logsDistributionData.map((entry, index) => (
-                      <Cell 
-                        key={`cell-${index}`} 
-                        fill={entry.color}
-                        stroke="none"
-                        style={{
-                          cursor: 'pointer',
-                          filter: hoveredIndex === index 
-                            ? 'drop-shadow(0 4px 8px rgba(0,0,0,0.3)) brightness(1.1)' 
-                            : 'drop-shadow(0 1px 2px rgba(0,0,0,0.05))',
-                          transition: 'all 0.2s ease',
-                          outline: 'none'
-                        }}
-                        onMouseEnter={() => setHoveredIndex(index)}
-                        onMouseLeave={() => setHoveredIndex(null)}
-                      />
-                    ))}
+                                     <Pie
+                     data={logsDistributionData}
+                     cx="50%"
+                     cy="50%"
+                     innerRadius={35}
+                     outerRadius={55}
+                     paddingAngle={0}
+                     dataKey="value"
+                     stroke="none"
+                     strokeWidth={0}
+                   >
+                                         {logsDistributionData.map((entry, index) => (
+                       <Cell 
+                         key={`cell-${index}`} 
+                         fill={entry.color}
+                         stroke="none"
+                         strokeWidth={0}
+                       />
+                     ))}
                   </Pie>
                 </PieChart>
               </ResponsiveContainer>

@@ -52,10 +52,7 @@ function StatCard({
         </div>
 
         {/* Bottom: Delta */}
-        <p className={cn(
-          "text-[8px] leading-none flex items-center",
-          deltaType === 'up' ? 'text-green-600' : 'text-red-600'
-        )}>
+        <p className="text-[8px] text-muted-foreground leading-none flex items-center">
           {deltaType === 'up' ? (
             <TrendingUp className="inline h-2 w-2 mr-1" />
           ) : (

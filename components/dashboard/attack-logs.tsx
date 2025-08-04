@@ -141,11 +141,7 @@ export function AttackLogsTable() {
               <div className="text-muted-foreground text-sm">Loading attacks...</div>
             </div>
           ) : (
-            <div className="overflow-y-auto h-full overflow-x-hidden minimal-scrollbar" style={{
-              scrollbarWidth: 'thin',
-              scrollbarColor: 'transparent transparent',
-              scrollbarGutter: 'stable'
-            }}>
+            <div className="overflow-y-auto h-full overflow-x-hidden custom-scrollbar">
               <div className="w-full min-w-0 max-w-full">
                 <Table className="w-full table-fixed">
                   <TableHeader className="sticky top-0 bg-background z-10">

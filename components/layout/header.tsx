@@ -51,7 +51,7 @@ export function Header({ className, onMobileMenuToggle }: HeaderProps) {
           onClick={onMobileMenuToggle}
         >
           <div className="w-6 h-6 bg-muted rounded-full flex items-center justify-center">
-            <Menu className="h-3 w-3 text-muted-foreground" />
+            <Menu className="h-3 w-3" />
           </div>
         </Button>
 
@@ -69,7 +69,7 @@ export function Header({ className, onMobileMenuToggle }: HeaderProps) {
       {/* Center Section - Search Bar */}
       <div className="flex-1 flex justify-center max-w-sm mx-4">
         <div className="relative w-full">
-          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground z-10" />
+          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 z-10" />
           <Input
             placeholder="Search"
             className="pl-10 py-1.5 rounded-full text-sm bg-background/60 border-border/60 backdrop-blur-sm"
@@ -83,9 +83,9 @@ export function Header({ className, onMobileMenuToggle }: HeaderProps) {
         <div className="hidden lg:flex items-center gap-2">
           <div className="w-6 h-6 bg-muted rounded-full flex items-center justify-center">
             {isConnected ? (
-              <Wifi className="h-3 w-3 text-muted-foreground" />
+              <Wifi className="h-3 w-3" />
             ) : (
-              <WifiOff className="h-3 w-3 text-muted-foreground" />
+              <WifiOff className="h-3 w-3" />
             )}
           </div>
           <span className="text-xs text-muted-foreground">
@@ -101,10 +101,10 @@ export function Header({ className, onMobileMenuToggle }: HeaderProps) {
         {/* Notifications */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon" className="relative">
+            <Button variant="ghost" size="icon" className="relative rounded-full">
               <div className="w-6 h-6 bg-muted rounded-full flex items-center justify-center">
-                <Bell className="h-3 w-3 text-muted-foreground" />
-                <Badge className="absolute -top-1 -right-1 h-3 w-3 p-0 text-[8px] leading-none bg-red-500">
+                <Bell className="h-3 w-3" />
+                <Badge className="absolute -top-1 -right-1 h-3 w-3 p-0 text-[8px] leading-none bg-primary">
                   3
                 </Badge>
               </div>
@@ -115,7 +115,7 @@ export function Header({ className, onMobileMenuToggle }: HeaderProps) {
             <DropdownMenuSeparator />
             <DropdownMenuItem>
               <div className="flex items-center gap-2">
-                <AlertTriangle className="h-4 w-4 text-orange-500" />
+                <AlertTriangle className="h-4 w-4" />
                 <div>
                   <p className="text-sm font-medium">New anomaly detected</p>
                   <p className="text-xs text-muted-foreground">2 minutes ago</p>
@@ -124,7 +124,7 @@ export function Header({ className, onMobileMenuToggle }: HeaderProps) {
             </DropdownMenuItem>
             <DropdownMenuItem>
               <div className="flex items-center gap-2">
-                <Shield className="h-4 w-4 text-green-500" />
+                <Shield className="h-4 w-4" />
                 <div>
                   <p className="text-sm font-medium">System scan completed</p>
                   <p className="text-xs text-muted-foreground">5 minutes ago</p>
@@ -139,7 +139,7 @@ export function Header({ className, onMobileMenuToggle }: HeaderProps) {
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" size="icon" className="rounded-full">
               <div className="w-6 h-6 bg-muted rounded-full flex items-center justify-center">
-                <User className="h-3 w-3 text-muted-foreground" />
+                <User className="h-3 w-3" />
               </div>
             </Button>
           </DropdownMenuTrigger>

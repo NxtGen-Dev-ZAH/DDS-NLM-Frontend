@@ -120,7 +120,7 @@ export function AiChat({ className }: AiChatProps) {
     <Card className={className}>
       <CardHeader>
         <div className="flex items-center gap-2">
-          <Bot className="h-5 w-5 text-blue-500" />
+          <Bot className="h-5 w-5" />
           <CardTitle>AI Security Assistant</CardTitle>
           <Badge variant="outline" className="text-blue-600">
             Online
@@ -142,7 +142,7 @@ export function AiChat({ className }: AiChatProps) {
               >
                 {message.sender === 'agent' && (
                   <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900">
-                    <Bot className="h-4 w-4 text-blue-600" />
+                    <Bot className="h-4 w-4" />
                   </div>
                 )}
                 
@@ -235,7 +235,7 @@ export function AiChat({ className }: AiChatProps) {
             {isLoading && (
               <div className="flex gap-3">
                 <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900">
-                  <Bot className="h-4 w-4 text-blue-600" />
+                  <Bot className="h-4 w-4" />
                 </div>
                 <div className="max-w-[80%] rounded-lg bg-muted px-3 py-2 text-sm">
                   <div className="flex items-center gap-2">

@@ -141,47 +141,47 @@ export function AttackLogsTable() {
               <div className="text-muted-foreground text-sm">Loading attacks...</div>
             </div>
           ) : (
-            <div className="overflow-y-auto h-full custom-scrollbar" style={{
+            <div className="overflow-y-auto h-full custom-scrollbar overflow-x-hidden" style={{
               scrollbarWidth: 'thin',
               scrollbarColor: 'hsl(var(--muted-foreground)) hsl(var(--muted))'
             }}>
-              <div className="overflow-x-auto">
-                <Table className="min-w-[600px] sm:min-w-0">
+              <div className="w-full min-w-0 max-w-full">
+                <Table className="w-full table-fixed">
                   <TableHeader className="sticky top-0 bg-background z-10">
                     <TableRow>
-                      <TableHead className="text-xs whitespace-nowrap py-2 px-3 w-[80px]">Time</TableHead>
-                      <TableHead className="text-xs whitespace-nowrap py-2 px-3 w-[120px]">Source</TableHead>
-                      <TableHead className="text-xs whitespace-nowrap py-2 px-3 w-[120px]">Destination</TableHead>
-                      <TableHead className="text-xs whitespace-nowrap py-2 px-3 w-[80px]">Port</TableHead>
-                      <TableHead className="text-xs whitespace-nowrap py-2 px-3 w-[100px]">Threat</TableHead>
-                      <TableHead className="text-xs whitespace-nowrap py-2 px-3 w-[100px]">Confidence</TableHead>
+                      <TableHead className="text-xs py-2 px-3 w-[12%]">Time</TableHead>
+                      <TableHead className="text-xs py-2 px-3 w-[20%]">Source</TableHead>
+                      <TableHead className="text-xs py-2 px-3 w-[20%]">Destination</TableHead>
+                      <TableHead className="text-xs py-2 px-3 w-[12%]">Port</TableHead>
+                      <TableHead className="text-xs py-2 px-3 w-[18%]">Threat</TableHead>
+                      <TableHead className="text-xs py-2 px-3 w-[18%]">Confidence</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {logs.map((log, index) => (
                       <TableRow 
                         key={log.id} 
-                        className="hover:bg-accent cursor-pointer transition-all duration-200 hover:scale-[1.01] active:scale-[0.99]"
+                        className="hover:bg-accent cursor-pointer transition-all duration-200"
                         onClick={() => handleRowClick(log)}
                       >
-                        <TableCell className="font-mono text-xs whitespace-nowrap py-2 px-3">
+                        <TableCell className="font-mono text-xs py-2 px-3 overflow-hidden">
                           {format(new Date(log.timestamp), 'HH:mm')}
                         </TableCell>
-                        <TableCell className="font-mono text-xs whitespace-nowrap py-2 px-3">
+                        <TableCell className="font-mono text-xs py-2 px-3 truncate overflow-hidden">
                           {log.source_ip}
                         </TableCell>
-                        <TableCell className="font-mono text-xs whitespace-nowrap py-2 px-3">
+                        <TableCell className="font-mono text-xs py-2 px-3 truncate overflow-hidden">
                           {log.destination_ip}
                         </TableCell>
-                        <TableCell className="text-xs whitespace-nowrap py-2 px-3">
+                        <TableCell className="text-xs py-2 px-3 overflow-hidden">
                           {log.port}
                         </TableCell>
-                        <TableCell className="py-2 px-3">
+                        <TableCell className="py-2 px-3 overflow-hidden">
                           <Badge variant="destructive" className="text-xs">
                             {log.threat_type}
                           </Badge>
                         </TableCell>
-                        <TableCell className="py-2 px-3">
+                        <TableCell className="py-2 px-3 overflow-hidden">
                           <Badge variant={getConfidenceColor(log.confidence_score) as any} className="text-xs">
                             {log.confidence_score}%
                           </Badge>

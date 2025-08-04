@@ -126,7 +126,7 @@ export function DetailPopup({ isOpen, onClose, data, type }: DetailPopupProps) {
         <Card className="border-l-4 border-l-red-500">
           <CardContent className="p-4">
             <div className="flex items-center gap-2 mb-2">
-              <Activity className="h-4 w-4 text-red-500" />
+              <Activity className="h-4 w-4" />
               <span className="text-sm font-medium">Confidence Score</span>
             </div>
             <Badge className={`text-sm px-2 py-1 ${getConfidenceColor(data.confidence_score)}`}>
@@ -138,7 +138,7 @@ export function DetailPopup({ isOpen, onClose, data, type }: DetailPopupProps) {
         <Card className="border-l-4 border-l-orange-500">
           <CardContent className="p-4">
             <div className="flex items-center gap-2 mb-2">
-              <Zap className="h-4 w-4 text-orange-500" />
+              <Zap className="h-4 w-4" />
               <span className="text-sm font-medium">Threat Type</span>
             </div>
             <Badge variant="destructive" className="text-sm">
@@ -152,7 +152,7 @@ export function DetailPopup({ isOpen, onClose, data, type }: DetailPopupProps) {
       <Card>
         <CardHeader className="pb-3">
           <CardTitle className="flex items-center gap-2 text-base">
-            <Network className="h-4 w-4 text-blue-500" />
+            <Network className="h-4 w-4" />
             Network Details
           </CardTitle>
         </CardHeader>

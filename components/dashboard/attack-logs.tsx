@@ -141,47 +141,44 @@ export function AttackLogsTable() {
               <div className="text-muted-foreground text-sm">Loading attacks...</div>
             </div>
           ) : (
-            <div className="overflow-y-auto h-full custom-scrollbar" style={{
-              scrollbarWidth: 'thin',
-              scrollbarColor: 'hsl(var(--muted-foreground)) hsl(var(--muted))'
-            }}>
-              <div className="overflow-x-auto">
-                <Table className="min-w-[600px] sm:min-w-0">
+            <div className="overflow-y-auto h-full overflow-x-hidden custom-scrollbar">
+              <div className="w-full min-w-0 max-w-full">
+                <Table className="w-full table-fixed">
                   <TableHeader className="sticky top-0 bg-background z-10">
                     <TableRow>
-                      <TableHead className="text-xs whitespace-nowrap py-2 px-3 w-[80px]">Time</TableHead>
-                      <TableHead className="text-xs whitespace-nowrap py-2 px-3 w-[120px]">Source</TableHead>
-                      <TableHead className="text-xs whitespace-nowrap py-2 px-3 w-[120px]">Destination</TableHead>
-                      <TableHead className="text-xs whitespace-nowrap py-2 px-3 w-[80px]">Port</TableHead>
-                      <TableHead className="text-xs whitespace-nowrap py-2 px-3 w-[100px]">Threat</TableHead>
-                      <TableHead className="text-xs whitespace-nowrap py-2 px-3 w-[100px]">Confidence</TableHead>
+                      <TableHead className="text-xs py-2 px-3 w-[12%]">Time</TableHead>
+                      <TableHead className="text-xs py-2 px-3 w-[20%]">Source</TableHead>
+                      <TableHead className="text-xs py-2 px-3 w-[20%]">Destination</TableHead>
+                      <TableHead className="text-xs py-2 px-3 w-[12%]">Port</TableHead>
+                      <TableHead className="text-xs py-2 px-3 w-[18%]">Threat</TableHead>
+                      <TableHead className="text-xs py-2 px-3 w-[18%]">Confidence</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {logs.map((log, index) => (
                       <TableRow 
                         key={log.id} 
-                        className="hover:bg-accent cursor-pointer transition-all duration-200 hover:scale-[1.01] active:scale-[0.99]"
+                        className="hover:bg-accent cursor-pointer transition-all duration-200"
                         onClick={() => handleRowClick(log)}
                       >
-                        <TableCell className="font-mono text-xs whitespace-nowrap py-2 px-3">
+                        <TableCell className="font-mono text-xs py-2 px-3 overflow-hidden">
                           {format(new Date(log.timestamp), 'HH:mm')}
                         </TableCell>
-                        <TableCell className="font-mono text-xs whitespace-nowrap py-2 px-3">
+                        <TableCell className="font-mono text-xs py-2 px-3 truncate overflow-hidden">
                           {log.source_ip}
                         </TableCell>
-                        <TableCell className="font-mono text-xs whitespace-nowrap py-2 px-3">
+                        <TableCell className="font-mono text-xs py-2 px-3 truncate overflow-hidden">
                           {log.destination_ip}
                         </TableCell>
-                        <TableCell className="text-xs whitespace-nowrap py-2 px-3">
+                        <TableCell className="text-xs py-2 px-3 overflow-hidden">
                           {log.port}
                         </TableCell>
-                        <TableCell className="py-2 px-3">
+                        <TableCell className="py-2 px-3 overflow-hidden">
                           <Badge variant="destructive" className="text-xs">
                             {log.threat_type}
                           </Badge>
                         </TableCell>
-                        <TableCell className="py-2 px-3">
+                        <TableCell className="py-2 px-3 overflow-hidden">
                           <Badge variant={getConfidenceColor(log.confidence_score) as any} className="text-xs">
                             {log.confidence_score}%
                           </Badge>
@@ -229,167 +226,159 @@ export function AttackLogsTable() {
         </CardContent>
       </Card>
 
-            {/* Attack Details Panel - Inline */}
-      {selectedLog && isPopupOpen && (
-        <Card className="mt-4 shadow-sm">
-          <CardHeader className="pb-4">
-            <div className="flex items-center justify-between">
-              <CardTitle className="flex items-center gap-3 text-lg">
-                <AlertTriangle className="h-5 w-5 text-destructive" />
-                Attack Details
-              </CardTitle>
-              <Button 
-                variant="ghost" 
-                size="sm" 
-                onClick={handleClosePopup}
-                className="h-8 w-8 p-0"
-              >
-                <X className="h-4 w-4" />
-              </Button>
-            </div>
-          </CardHeader>
+      {/* Attack Details Popup */}
+      <Dialog open={isPopupOpen} onOpenChange={handleClosePopup}>
+        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-3 text-xl">
+              <AlertTriangle className="h-6 w-6" />
+              Attack Details
+            </DialogTitle>
+          </DialogHeader>
           
-          <CardContent className="space-y-6">
-            {/* Attack Details */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="space-y-4">
-                <div>
-                  <h4 className="font-medium mb-2">Timestamp</h4>
-                  <p className="text-sm text-muted-foreground">
-                    {format(new Date(selectedLog.timestamp), 'MMM dd, yyyy HH:mm:ss')}
-                  </p>
-                </div>
-                
-                <div className="grid grid-cols-2 gap-4">
+          {selectedLog && (
+            <div className="space-y-6">
+              {/* Attack Details */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-4">
                   <div>
-                    <h4 className="font-medium mb-2">Confidence</h4>
-                    <Badge variant={getConfidenceColor(selectedLog.confidence_score) as any}>
-                      {selectedLog.confidence_score}%
+                    <h4 className="font-medium mb-2">Timestamp</h4>
+                    <p className="text-sm text-muted-foreground">
+                      {format(new Date(selectedLog.timestamp), 'MMM dd, yyyy HH:mm:ss')}
+                    </p>
+                  </div>
+                  
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <h4 className="font-medium mb-2">Confidence</h4>
+                      <Badge variant={getConfidenceColor(selectedLog.confidence_score) as any}>
+                        {selectedLog.confidence_score}%
+                      </Badge>
+                    </div>
+                    <div>
+                      <h4 className="font-medium mb-2">Severity</h4>
+                      <Badge variant="outline">
+                        {selectedLog.severity}
+                      </Badge>
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <h4 className="font-medium mb-2">Threat Type</h4>
+                    <Badge variant="destructive">
+                      {selectedLog.threat_type}
                     </Badge>
                   </div>
-                  <div>
-                    <h4 className="font-medium mb-2">Severity</h4>
-                    <Badge variant="outline">
-                      {selectedLog.severity}
-                    </Badge>
-                  </div>
                 </div>
                 
-                <div>
-                  <h4 className="font-medium mb-2">Threat Type</h4>
-                  <Badge variant="destructive">
-                    {selectedLog.threat_type}
-                  </Badge>
+                <div className="space-y-4">
+                  <div>
+                    <h4 className="font-medium mb-2">Network Details</h4>
+                    <div className="space-y-2">
+                      <div>
+                        <span className="text-xs text-muted-foreground">Source IP:</span>
+                        <p className="font-mono text-sm bg-muted px-3 py-2 rounded-md">{selectedLog.source_ip}</p>
+                      </div>
+                      <div>
+                        <span className="text-xs text-muted-foreground">Destination IP:</span>
+                        <p className="font-mono text-sm bg-muted px-3 py-2 rounded-md">{selectedLog.destination_ip}</p>
+                      </div>
+                      <div>
+                        <span className="text-xs text-muted-foreground">Port:</span>
+                        <p className="font-mono text-sm bg-muted px-3 py-2 rounded-md">{selectedLog.port}</p>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {selectedLog.ml_model_used && (
+                    <div>
+                      <h4 className="font-medium mb-2">AI Analysis</h4>
+                      <div className="space-y-2">
+                        <div className="flex items-center justify-between">
+                          <span className="text-sm">Model Used</span>
+                          <Badge variant="outline" className="text-xs">{selectedLog.ml_model_used}</Badge>
+                        </div>
+                        {selectedLog.is_anomaly && (
+                          <div className="flex items-center justify-between">
+                            <span className="text-sm">Anomaly Score</span>
+                            <Badge variant="secondary" className="text-xs">{selectedLog.anomaly_score}%</Badge>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
               
-              <div className="space-y-4">
-                <div>
-                  <h4 className="font-medium mb-2">Network Details</h4>
-                  <div className="space-y-2">
-                    <div>
-                      <span className="text-xs text-muted-foreground">Source IP:</span>
-                      <p className="font-mono text-sm bg-muted px-3 py-2 rounded-md">{selectedLog.source_ip}</p>
-                    </div>
-                    <div>
-                      <span className="text-xs text-muted-foreground">Destination IP:</span>
-                      <p className="font-mono text-sm bg-muted px-3 py-2 rounded-md">{selectedLog.destination_ip}</p>
-                    </div>
-                    <div>
-                      <span className="text-xs text-muted-foreground">Port:</span>
-                      <p className="font-mono text-sm bg-muted px-3 py-2 rounded-md">{selectedLog.port}</p>
-                    </div>
+              {/* Raw Log */}
+              {selectedLog.raw_log && (
+                <div className="border-t pt-4">
+                  <h4 className="font-medium mb-3">Raw Log Data</h4>
+                  <div className="bg-muted/50 border rounded-lg p-3 max-h-32 overflow-y-auto">
+                    <pre className="text-xs font-mono text-muted-foreground whitespace-pre-wrap break-words overflow-x-auto">
+                      {selectedLog.raw_log}
+                    </pre>
                   </div>
                 </div>
-                
-                {selectedLog.ml_model_used && (
-                  <div>
-                    <h4 className="font-medium mb-2">AI Analysis</h4>
-                    <div className="space-y-2">
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm">Model Used</span>
-                        <Badge variant="outline" className="text-xs">{selectedLog.ml_model_used}</Badge>
-                      </div>
-                      {selectedLog.is_anomaly && (
-                        <div className="flex items-center justify-between">
-                          <span className="text-sm">Anomaly Score</span>
-                          <Badge variant="secondary" className="text-xs">{selectedLog.anomaly_score}%</Badge>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
-            
-            {/* Raw Log */}
-            {selectedLog.raw_log && (
+              )}
+              
+              {/* Action Buttons */}
               <div className="border-t pt-4">
-                <h4 className="font-medium mb-3">Raw Log Data</h4>
-                <div className="bg-muted/50 border rounded-lg p-3 max-h-32 overflow-y-auto">
-                  <pre className="text-xs font-mono text-muted-foreground whitespace-pre-wrap break-words overflow-x-auto">
-                    {selectedLog.raw_log}
-                  </pre>
+                <h4 className="font-medium mb-3">Security Actions</h4>
+                <div className="flex flex-wrap gap-2">
+                  <Button 
+                    variant="destructive" 
+                    size="sm"
+                    onClick={() => {
+                      console.log(`Terminating attack ${selectedLog.id}`)
+                      // TODO: Implement terminate action
+                    }}
+                  >
+                    <AlertTriangle className="mr-2 h-4 w-4" />
+                    Terminate Attack
+                  </Button>
+                  
+                  <Button 
+                    variant="secondary" 
+                    size="sm"
+                    onClick={() => {
+                      console.log(`Quarantining source ${selectedLog.id}`)
+                      // TODO: Implement quarantine action
+                    }}
+                  >
+                    <Shield className="mr-2 h-4 w-4" />
+                    Quarantine Source
+                  </Button>
+                  
+                  <Button 
+                    variant="default" 
+                    size="sm"
+                    onClick={() => {
+                      console.log(`Unblocking IP ${selectedLog.id}`)
+                      // TODO: Implement unblock action
+                    }}
+                  >
+                    <Shield className="mr-2 h-4 w-4" />
+                    Unblock IP
+                  </Button>
+                  
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    onClick={() => {
+                      console.log(`Investigating attack ${selectedLog.id}`)
+                      // TODO: Implement investigate action
+                    }}
+                  >
+                    <Search className="mr-2 h-4 w-4" />
+                    Investigate
+                  </Button>
                 </div>
               </div>
-            )}
-            
-            {/* Action Buttons */}
-            <div className="border-t pt-4">
-              <h4 className="font-medium mb-3">Security Actions</h4>
-              <div className="flex flex-wrap gap-2">
-                <Button 
-                  variant="destructive" 
-                  size="sm"
-                  onClick={() => {
-                    console.log(`Terminating attack ${selectedLog.id}`)
-                    // TODO: Implement terminate action
-                  }}
-                >
-                  <AlertTriangle className="mr-2 h-4 w-4" />
-                  Terminate Attack
-                </Button>
-                
-                <Button 
-                  variant="secondary" 
-                  size="sm"
-                  onClick={() => {
-                    console.log(`Quarantining source ${selectedLog.id}`)
-                    // TODO: Implement quarantine action
-                  }}
-                >
-                  <Shield className="mr-2 h-4 w-4" />
-                  Quarantine Source
-                </Button>
-                
-                <Button 
-                  variant="default" 
-                  size="sm"
-                  onClick={() => {
-                    console.log(`Unblocking IP ${selectedLog.id}`)
-                    // TODO: Implement unblock action
-                  }}
-                >
-                  <Shield className="mr-2 h-4 w-4" />
-                  Unblock IP
-                </Button>
-                
-                <Button 
-                  variant="outline" 
-                  size="sm"
-                  onClick={() => {
-                    console.log(`Investigating attack ${selectedLog.id}`)
-                    // TODO: Implement investigate action
-                  }}
-                >
-                  <Search className="mr-2 h-4 w-4" />
-                  Investigate
-                </Button>
-              </div>
             </div>
-          </CardContent>
-        </Card>
-      )}
+          )}
+        </DialogContent>
+      </Dialog>
     </>
   )
 }   

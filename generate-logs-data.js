@@ -40,3 +40,4 @@ const logsData = {
 
 fs.writeFileSync('logs-data.json', JSON.stringify(logsData, null, 2));
 console.log('Generated logs-data.json with 150 logs'); 
+

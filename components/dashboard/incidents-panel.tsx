@@ -77,11 +77,11 @@ export function IncidentsPanel({ className }: IncidentsPanelProps) {
 
   const getStatusIcon = (status: string) => {
     switch (status) {
-      case 'open': return <AlertTriangle className="h-4 w-4 text-red-500" />
-      case 'in_progress': return <Clock className="h-4 w-4 text-yellow-500" />
-      case 'resolved': return <CheckCircle className="h-4 w-4 text-green-500" />
-      case 'closed': return <XCircle className="h-4 w-4 text-gray-500" />
-      default: return <AlertTriangle className="h-4 w-4 text-gray-500" />
+      case 'open': return <AlertTriangle className="h-4 w-4" />
+      case 'in_progress': return <Clock className="h-4 w-4" />
+      case 'resolved': return <CheckCircle className="h-4 w-4" />
+      case 'closed': return <XCircle className="h-4 w-4" />
+      default: return <AlertTriangle className="h-4 w-4" />
     }
   }
 

@@ -81,9 +81,9 @@ export function RealTimeLogs({ className }: RealTimeLogsProps) {
 
   const getAnomalyIcon = (isAnomaly: boolean) => {
     return isAnomaly ? (
-      <AlertTriangle className="h-4 w-4 text-red-500" />
+      <AlertTriangle className="h-4 w-4" />
     ) : (
-      <Shield className="h-4 w-4 text-green-500" />
+      <Shield className="h-4 w-4" />
     )
   }
 

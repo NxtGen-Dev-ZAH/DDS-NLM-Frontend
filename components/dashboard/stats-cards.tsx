@@ -54,9 +54,9 @@ function StatCard({
         {/* Bottom: Delta */}
         <p className="text-[8px] text-muted-foreground leading-none flex items-center">
           {deltaType === 'up' ? (
-            <TrendingUp className="inline h-2 w-2 mr-1 text-green-500" />
+            <TrendingUp className="inline h-2 w-2 mr-1" />
           ) : (
-            <TrendingDown className="inline h-2 w-2 mr-1 text-red-500" />
+            <TrendingDown className="inline h-2 w-2 mr-1" />
           )}
           {delta}
         </p>
@@ -111,7 +111,7 @@ export function UnblockedIPsCard() {
       title="Unblocked IPs"
       value={mockStats.unblockedIPs.toString().padStart(2, '0')}
       icon={<Unlock />}
-      iconColor="text-red-600"
+      iconColor="text-green-500"
       delta="-1"
       deltaType="down"
     />

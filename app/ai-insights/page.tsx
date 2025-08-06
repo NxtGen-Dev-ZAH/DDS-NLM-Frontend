@@ -79,7 +79,7 @@ export default function AIInsightsPage() {
       <Card className="shadow-sm rounded-xl h-[88vh] flex flex-col">
         <CardHeader className="pb-2 px-4 flex-shrink-0">
           <CardTitle className="flex items-center gap-2 text-sm font-semibold">
-            <Brain className="h-4 w-4 text-primary" />
+            <Brain className="h-4 w-4" />
             AI Security Assistant
           </CardTitle>
         </CardHeader>
@@ -121,7 +121,7 @@ export default function AIInsightsPage() {
                   <div className="flex justify-start px-4">
                     <div className="flex items-start gap-4">
                       <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center bg-muted">
-                        <Bot className="h-4 w-4 text-muted-foreground" />
+                        <Bot className="h-4 w-4" />
                       </div>
                       <div className="bg-muted rounded-lg px-4 py-3">
                         <div className="flex items-center gap-2">
@@ -150,10 +150,8 @@ export default function AIInsightsPage() {
                     onChange={(e) => setInputValue(e.target.value)}
                     onKeyPress={handleKeyPress}
                     placeholder="Message AI Security Assistant..."
-                    className="pr-12 resize-none rounded-full border-0 focus:ring-0 focus:ring-offset-0 transition-all duration-200"
+                    className="pr-12 resize-none rounded-full border-0 focus:ring-0 focus:ring-offset-0 transition-all duration-200 bg-background text-foreground"
                     style={{ 
-                      backgroundColor: '#0f0f0f',
-                      color: '#ffffff',
                       fontSize: '16px',
                       padding: '14px 18px',
                       boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
@@ -165,9 +163,9 @@ export default function AIInsightsPage() {
                     onClick={handleSendMessage}
                     disabled={!inputValue.trim() || isLoading}
                     size="sm"
-                    className="absolute right-2 top-1/2 transform -translate-y-1/2 h-8 w-8 p-0 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0 bg-white hover:bg-gray-100 border-none shadow-sm"
+                    className="absolute right-2 top-1/2 transform -translate-y-1/2 h-8 w-8 p-0 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0 bg-foreground hover:bg-accent border-none shadow-sm"
                   >
-                    <ArrowUp className="h-4 w-4 text-gray-600" />
+                    <ArrowUp className="h-4 w-4 text-background" />
                   </Button>
                 </div>
                 

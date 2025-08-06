@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
+import { SearchProvider } from "@/lib/search-context";
 import { LayoutWrapper } from "@/components/layout/layout-wrapper";
 
 const geistSans = Geist({
@@ -35,9 +36,11 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <LayoutWrapper>
-            {children}
-          </LayoutWrapper>
+          <SearchProvider>
+            <LayoutWrapper>
+              {children}
+            </LayoutWrapper>
+          </SearchProvider>
         </ThemeProvider>
       </body>
     </html>

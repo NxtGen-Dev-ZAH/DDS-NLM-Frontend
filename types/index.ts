@@ -31,6 +31,8 @@ export interface Incident {
   indicators_of_compromise?: string
   agent_analysis?: string
   recommended_actions?: string
+  is_blocked?: boolean
+  is_quarantined?: boolean
 }
 
 export interface AgentResponse {
